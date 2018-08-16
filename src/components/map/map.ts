@@ -1,0 +1,223 @@
+
+import { component, config } from "flagwind-web";
+import maps from "flagwind-map";
+import Component from "components/component";
+import arcgisSetting from "config/arcgis";
+import { MapLoader, Command } from "../../common";
+import "./map.less";
+
+/**
+ * 事件定义。
+ * @private
+ * @const
+ */
+const EVENTS = [
+    "onFormPoint",      // 从地图上的点坐标转换成业务的经纬度
+    "onToPoint",        // 从业务的经纬度转换地图上的点坐标
+    "onMapLoad",
+    "onClick",          // 鼠标左键单击事件
+    "onDbClick",        // 地图平移时触发事件
+    "onMouseOut",
+    "onMouseOver",
+    "onMouseMove",
+    "onMouseWheel",
+    "onZoom",
+    "onZoomStart",
+    "onZoomEnd",
+    "onPan",
+    "onPanStart",
+    "onPanEnd",
+    "onUpdateStart",
+    "onUpdateEnd",
+    "onExtentChange",
+    "onResize"
+];
+
+const EXCULDE_NAMES = ["command", "setting", "vid"];
+
+/**
+ * 高德地图组件。
+ * @class
+ * @version 1.0.0
+ */
+@component({ template: require("./map.html") })
+export default class MapComponent extends Component {
+
+    /**
+     * 获取地图的DOM节点。
+     * @public
+     * @property
+     * @returns HTMLDivElement
+     */
+    public get $map(): HTMLDivElement {
+        return this.$refs.map as HTMLDivElement;
+    }
+
+    @config({ type: Command })
+    public command: Command<this>;
+
+    @config({ type: Object })
+    public setting: Object;
+
+    /**
+     * 获取或设置地图容器的ID。
+     * @description 静态属性，仅支持初始化配置。
+     * @public
+     * @config
+     * @returns string
+     */
+    @config({ type: String })
+    public vid: string;
+
+    /**
+     * 获取或设置地图图层数组，数组可以是图层 中的一个或多个，默认为普通二维地图。
+     * 当叠加多个图层时，普通二维地图需通过实例化一个 TileLayer 类实现。
+     * @description 静态属性，仅支持初始化配置。
+     * @public
+     * @config
+     * @returns Array<object>
+     */
+    @config({ type: Array })
+    public layers: Array<object>;
+
+    /**
+     * 获取或设置地图显示的缩放级别。
+     * @description 静态属性，仅支持初始化配置。3D地图下，zoom值，可以设置为浮点数。
+     * @public
+     * @config
+     * @returns number
+     */
+    @config({ type: Number })
+    public zoom: number;
+
+    /**
+     * 获取或设置地图显示的缩放级别范围，在PC上，默认范围[3,18]，取值范围[3-18]；在移动设备上，默认范围[3,19]，取值范围[3-19]
+     * @description 动态属性，支持响应式。
+     * @public
+     * @config
+     * @returns Array<number>
+     */
+    @config({ type: Array })
+    public zooms: [number, number];
+
+    /**
+     * 获取或设置地图中心点坐标值。
+     * @description 动态属性，支持响应式。
+     * @public
+     * @config
+     * @returns Array<number>
+     */
+    @config({ type: Array })
+    public center: [number, number];
+
+    /**
+     * 获取或设置地图显示的参考坐标系。
+     * @description 静态属性，仅支持初始化配置。地图显示的参考坐标系，取值范围："EPSG3857"，"EPSG3395"，"EPSG4326"
+     * @public
+     * @config
+     * @returns Number
+     */
+    @config({ type: Number })
+    public wkid: Number;
+
+    /**
+     * 获取或设置地图类型，目前arcgis和minemap两种
+     * @description 动态属性，支持响应式。
+     * @public
+     * @config
+     * @returns string
+     */
+    @config({ type: String,default: "arcgis" })
+    public mapType: string;
+
+    public constructor() {
+        super(EVENTS);
+    }
+
+    /**
+     * 准备创建组件时调用的钩子方法。
+     * @protected
+     * @override
+     * @returns void
+     */
+    protected created(): void {
+
+        // 监听 "command" 选项变动
+        this.$watch("command", (command: Command<this>) => {
+            if (this.mapComponent) {
+                command.execute(this.mapComponent);
+                // let m = <Function>this.mapComponent[command.name];
+                // if (m) {
+                //     m.apply(this.mapComponent, command.value);
+                // }
+            }
+        }, ({ deep: true }));
+
+    }
+
+    /**
+     * 当创建组件时调用的钩子方法。
+     * @protected
+     * @override
+     * @returns void
+     */
+    protected mounted(): void {
+        // 调用基类方法
+        super.mounted();
+
+        MapLoader.loadModules().then(() => {
+            // 初始化高德地图
+            this.initialize();
+        });
+    }
+
+    /**
+     * 当销毁组件后调用的钩子方法。
+     * @protected
+     * @override
+     * @returns void
+     */
+    protected destroyed(): void {
+        if (this.map) {
+            // 组件销毁
+        }
+    }
+
+    protected excludeNames(): Array<String> {
+        return EXCULDE_NAMES;
+    }
+
+    /**
+     * 初始化高德地图。
+     * @private
+     * @returns void
+     */
+    private async initialize(): Promise<void> {
+        if (this.map) {
+            return;
+        }
+
+        // 解析配置选项
+        const options = this.resolveOptions();
+        let setting = <maps.EsriSetting>{...arcgisSetting, ...this.setting};
+        let serviceType = this.getMapServiceType();
+        this.map = this.mapComponent = this.getService<maps.FlagwindMap>(serviceType,setting,this.vid,options); // new maps.default.EsriMap(setting,this.vid,options);
+        // 通知外部组件高德地图已准备就绪
+        this.$emit("map-ready", this.map);
+
+        // 通知所有子组件高德地图已准备就绪
+        this.$children.forEach(child => {
+            child.$emit("map-ready", this.map);
+        });
+    }
+
+    private getMapServiceType() {
+        if (this.mapType === "arcgis") {
+            return maps["EsriMap"];
+        } else if (this.mapType === "arcgis") {
+            return maps["MinemapMap"];
+        } else {
+            throw new Error("不支持的地图类型" + this.mapType);
+        }
+    }
+}
