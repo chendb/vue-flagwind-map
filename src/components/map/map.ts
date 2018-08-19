@@ -1,10 +1,9 @@
 
 import { component, config } from "flagwind-web";
 import maps from "flagwind-map";
-import Component from "components/component";
-import arcgisSetting from "config/arcgis";
-import { MapLoader, Command } from "../../common";
-import "./map.less";
+import Component from "src/components/component";
+import arcgisSetting from "src/config/arcgis";
+import { MapLoader } from "src/common";
 
 /**
  * 事件定义。
@@ -33,7 +32,7 @@ const EVENTS = [
     "onResize"
 ];
 
-const EXCULDE_NAMES = ["command", "setting", "vid"];
+const EXCULDE_NAMES = ["setting", "vid"];
 
 /**
  * 高德地图组件。
@@ -53,9 +52,6 @@ export default class MapComponent extends Component {
         return this.$refs.map as HTMLDivElement;
     }
 
-    @config({ type: Command })
-    public command: Command<this>;
-
     @config({ type: Object })
     public setting: Object;
 
@@ -68,17 +64,6 @@ export default class MapComponent extends Component {
      */
     @config({ type: String })
     public vid: string;
-
-    /**
-     * 获取或设置地图图层数组，数组可以是图层 中的一个或多个，默认为普通二维地图。
-     * 当叠加多个图层时，普通二维地图需通过实例化一个 TileLayer 类实现。
-     * @description 静态属性，仅支持初始化配置。
-     * @public
-     * @config
-     * @returns Array<object>
-     */
-    @config({ type: Array })
-    public layers: Array<object>;
 
     /**
      * 获取或设置地图显示的缩放级别。
@@ -143,16 +128,6 @@ export default class MapComponent extends Component {
     protected created(): void {
 
         // 监听 "command" 选项变动
-        this.$watch("command", (command: Command<this>) => {
-            if (this.mapComponent) {
-                command.execute(this.mapComponent);
-                // let m = <Function>this.mapComponent[command.name];
-                // if (m) {
-                //     m.apply(this.mapComponent, command.value);
-                // }
-            }
-        }, ({ deep: true }));
-
     }
 
     /**
@@ -199,18 +174,22 @@ export default class MapComponent extends Component {
 
         // 解析配置选项
         const options = this.resolveOptions();
-        let setting = <maps.EsriSetting>{...arcgisSetting, ...this.setting};
+        let setting = <maps.IMapSetting>{...arcgisSetting, ...this.setting};
+
         let serviceType = this.getMapServiceType();
-        this.map = this.mapComponent = this.getService<maps.FlagwindMap>(serviceType,setting,this.vid,options); // new maps.default.EsriMap(setting,this.vid,options);
-        // 通知外部组件高德地图已准备就绪
+        this.map = this.mapComponent = this.getService<maps.FlagwindMap>(serviceType,setting,this.vid,options);
+        // 通知外部组件地图已准备就绪
         this.$emit("map-ready", this.map);
 
-        // 通知所有子组件高德地图已准备就绪
+        // 通知所有子组件地图已准备就绪
         this.$children.forEach(child => {
             child.$emit("map-ready", this.map);
         });
     }
 
+    /**
+     * 根据地图类型设置，动态获取地图类型
+     */
     private getMapServiceType() {
         if (this.mapType === "arcgis") {
             return maps["EsriMap"];
@@ -220,4 +199,5 @@ export default class MapComponent extends Component {
             throw new Error("不支持的地图类型" + this.mapType);
         }
     }
+
 }

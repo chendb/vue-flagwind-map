@@ -1,7 +1,7 @@
 
 import { component, config } from "flagwind-web";
 import maps from "flagwind-map";
-import Component from "components/component";
+import Component from "src/components/component";
 
 /**
  * 事件定义。
@@ -92,24 +92,6 @@ export default class PointLayerComponent extends Component {
     @config({ type: Array })
     public source: Array<object>;
 
-    /**
-     * 地图类型
-     */
-    public get mapType() {
-        if (!this.map) {
-            return null;
-        }
-        return this.map.options.mapType;
-    }
-
-    // public get mapComponent(): maps.FlagwindBusinessLayer {
-    //     return this._mapComponent;
-    // }
-
-    // public set mapComponent(value: maps.FlagwindBusinessLayer) {
-    //     this._mapComponent = value;
-    // }
-
     public constructor() {
         super(EVENTS);
     }
@@ -194,6 +176,7 @@ export default class PointLayerComponent extends Component {
         if (!map) {
             return;
         }
+        
         this.map = map;
 
         // 解析配置选项
@@ -241,12 +224,12 @@ export default class PointLayerComponent extends Component {
     }
 
     private getMapServiceType() {
-        if (this.mapType === "arcgis") {
+        if (this.getMapType() === "arcgis") {
             return maps["EsriClusterLayer"];
-        } else if (this.mapType === "arcgis") {
+        } else if (this.getMapType() === "arcgis") {
             return maps["MinemapPointLayer"];
         } else {
-            throw new Error("不支持的地图类型" + this.mapType);
+            throw new Error("不支持的地图类型" + this.getMapType());
         }
     }
 }

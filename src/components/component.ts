@@ -54,8 +54,17 @@ export default abstract class Component extends ComponentBase {
      */
     protected constructor(events: Array<string>) {
         super();
-
         this.mapEvents = events || [];
+    }
+  
+    /**
+     * 地图类型
+     */
+    public getMapType(): maps.MapType {
+        if (!this.map) {
+            return null;
+        }
+        return this.map.options.mapType;
     }
 
     /**

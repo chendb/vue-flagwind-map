@@ -1,7 +1,7 @@
 
 import { component, config } from "flagwind-web";
 import maps from "flagwind-map";
-import Component from "components/component";
+import Component from "src/components/component";
 
 /**
  * 事件定义。
@@ -44,16 +44,6 @@ export default class HeatmapLayerComponent extends Component {
      */
     @config({ type: Array })
     public source: Array<object>;
-
-    /**
-     * 地图类型
-     */
-    public get mapType() {
-        if (!this.map) {
-            return null;
-        }
-        return this.map.options.mapType;
-    }
 
     public get mapComponent(): maps.IFlagwindHeatmapLayer {
         return this._mapComponent;
@@ -151,12 +141,12 @@ export default class HeatmapLayerComponent extends Component {
     }
 
     private getMapServiceType() {
-        if (this.mapType === "arcgis") {
+        if (this.getMapType() === "arcgis") {
             return maps["EsriHeatmapLayer"];
-        } else if (this.mapType === "arcgis") {
+        } else if (this.getMapType() === "arcgis") {
             return maps["MinemapHeatmapLayer"];
         } else {
-            throw new Error("不支持的地图类型" + this.mapType);
+            throw new Error("不支持的地图类型" + this.getMapType());
         }
     }
 }

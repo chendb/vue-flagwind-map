@@ -1,2 +1,2 @@
-export { default as MapLoader } from "common/map-loader";
-export { default as Command } from "models/command";
+
+export { default as MapLoader } from "./loader";

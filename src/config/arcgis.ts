@@ -1,31 +1,21 @@
-import * as maps from "flagwind-map";
-const isInHome = true;
-const arcgisSetting: maps.default.EsriSetting = {
-    arcgisApi: isInHome
-        ? "https://js.arcgis.com/3.25/"
-        : "http://120.202.26.100:8081/arcgis4js/library/3.21/",
-    routeUrl:
-        "http://120.202.26.100:6080/arcgis/rest/services/Features/NAServer/Route",
+import maps from "flagwind-map";
+
+const setting: maps.EsriSetting = {
+    arcgisApi: "https://js.arcgis.com/3.21/",
+    routeUrl: "",
     center: [118.573, 37.446],
     wkid: 4326,
     wkidFromApp: 4326,
-    zoom: 3,
+    zoom: 9,
     slider: false,
-    tiledUrls: isInHome ? [] : [
-              {
-                  id: "base_arcgis_tiled",
-                  url:
-                      "http://120.202.26.100:6080/arcgis/rest/services/dongying_dark/MapServer",
-                  title: "瓦片图层"
-              }
-          ],
+    tiledUrls: [],
     baseUrl: "",
     extent: null,
-    basemap: isInHome ? "oceans" : "",
+    basemap:  "dark-gray-vector",
     units: null,
-    minZoom: isInHome ? undefined : 0,
-    maxZoom: isInHome ? undefined : 8,
+    minZoom: undefined,
+    maxZoom: undefined,
     logo: false,
     sliderPosition: "bottom-left"
 };
-export default arcgisSetting;
+export default setting;

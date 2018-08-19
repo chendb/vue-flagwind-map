@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const webpackMerge = require("webpack-merge");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const webpackBaseConfig = require("./webpack.base.config.js");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");
@@ -42,6 +43,14 @@ module.exports = webpackMerge(webpackBaseConfig,
             inject: true,
             filename: path.join(__dirname, "../doc/dist/index.html"),
             template: path.join(__dirname, "../doc/index.html")
-        })
+        }),
+        new CopyWebpackPlugin
+        ([
+            {
+                from: path.resolve(__dirname, "../static"),
+                to: "static",
+                ignore: [".*"]
+            }
+        ])
     ]
 });

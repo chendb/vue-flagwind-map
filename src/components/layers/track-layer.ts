@@ -1,8 +1,7 @@
 
 import { component, config } from "flagwind-web";
 import maps from "flagwind-map";
-import Component from "components/component";
-import Command from "models/command";
+import Component from "src/components/component";
 
 /**
  * 事件定义。
@@ -20,20 +19,9 @@ const EXCULDE_NAMES = ["map","command"];
  */
 @component({ template: require("./track-layer.html") })
 export default class TrackLayerComponent extends Component {
-    @config({ type: Command })
-    public command: Command<maps.FlagwindTrackLayer>;
+
     @config({ type: Object })
     public symbol: any;
-
-    /**
-     * 地图类型
-     */
-    public get mapType() {
-        if (!this.map) {
-            return null;
-        }
-        return this.map.options.mapType;
-    }
 
     public get mapComponent(): maps.FlagwindTrackLayer {
         return this._mapComponent;
@@ -45,22 +33,6 @@ export default class TrackLayerComponent extends Component {
 
     public constructor() {
         super(EVENTS);
-    }
-
-    /**
-     * 准备创建组件时调用的钩子方法。
-     * @protected
-     * @override
-     * @returns void
-     */
-    protected created(): void {
-        this.$watch("command",(command: Command<maps.FlagwindTrackLayer>) => {
-                if (this.mapComponent) {
-                    command.execute(this.mapComponent);
-                }
-            },
-            { deep: true }
-        );
     }
 
     /**
@@ -129,12 +101,12 @@ export default class TrackLayerComponent extends Component {
     }
 
     private getMapServiceType() {
-        if (this.mapType === "arcgis") {
+        if (this.getMapType() === "arcgis") {
             return maps["EsriTrackLayer"];
-        } else if (this.mapType === "arcgis") {
+        } else if (this.getMapType() === "arcgis") {
             return maps["MinemapTrackLayer"];
         } else {
-            throw new Error("不支持的地图类型" + this.mapType);
+            throw new Error("不支持的地图类型" + this.getMapType());
         }
     }
 }

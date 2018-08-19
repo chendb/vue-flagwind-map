@@ -6,4 +6,4 @@
  * Copyright (C) 2010-present Flagwind Inc. All rights reserved. 
  */
 
-export { default } from "components/map/map";
+export { default } from "src/components/map/map";

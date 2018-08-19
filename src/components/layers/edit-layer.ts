@@ -1,7 +1,6 @@
-import { component, config } from "flagwind-web";
+import { component } from "flagwind-web";
 import maps from "flagwind-map";
-import Component from "components/component";
-import Command from "models/command";
+import Component from "src/components/component";
 
 /**
  * 事件定义。
@@ -19,18 +18,6 @@ const EXCULDE_NAMES = ["command"];
  */
 @component({ template: require("./edit-layer.html") })
 export default class EditLayerComponent extends Component {
-    @config({ type: Command })
-    public command: Command<this>;
-
-    /**
-     * 地图类型
-     */
-    public get mapType() {
-        if (!this.map) {
-            return null;
-        }
-        return this.map.options.mapType;
-    }
 
     public get mapComponent(): maps.IFlagwindEditLayer {
         return this._mapComponent;
@@ -42,24 +29,6 @@ export default class EditLayerComponent extends Component {
 
     public constructor() {
         super(EVENTS);
-    }
-
-    /**
-     * 准备创建组件时调用的钩子方法。
-     * @protected
-     * @override
-     * @returns void
-     */
-    protected created(): void {
-        this.$watch(
-            "command",
-            (command: Command<maps.IFlagwindEditLayer>) => {
-                if (this.mapComponent) {
-                    command.execute(this.mapComponent);
-                }
-            },
-            { deep: true }
-        );
     }
 
     /**
@@ -131,12 +100,12 @@ export default class EditLayerComponent extends Component {
     }
 
     private getMapServiceType() {
-        if (this.mapType === "arcgis") {
+        if (this.getMapType() === "arcgis") {
             return maps["EsriEditLayer"];
-        } else if (this.mapType === "arcgis") {
+        } else if (this.getMapType() === "arcgis") {
             return maps["MinemapEditLayer"];
         } else {
-            throw new Error("不支持的地图类型" + this.mapType);
+            throw new Error("不支持的地图类型" + this.getMapType());
         }
     }
 }

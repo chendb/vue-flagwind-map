@@ -1,8 +1,8 @@
 
 import { component, config } from "flagwind-web";
 import maps from "flagwind-map";
-import Component from "components/component";
-import Command from "models/command";
+import Component from "src/components/component";
+import Command from "src/models/command";
 
 /**
  * 事件定义。
@@ -25,16 +25,6 @@ export default class SelectBoxComponent extends Component {
 
     @config({ type: Number, default: maps.SelectMode.multiple })
     public selectMode: maps.SelectMode;
-
-    /**
-     * 地图类型
-     */
-    public get mapType() {
-        if (!this.map) {
-            return null;
-        }
-        return this.map.options.mapType;
-    }
 
     public get mapComponent(): maps.IFlagwindSelectBox {
         return this._mapComponent;
@@ -122,12 +112,12 @@ export default class SelectBoxComponent extends Component {
     }
 
     private getMapServiceType() {
-        if (this.mapType === "arcgis") {
+        if (this.getMapType() === "arcgis") {
             return maps["EsriSelectBox"];
-        } else if (this.mapType === "arcgis") {
+        } else if (this.getMapType() === "arcgis") {
             return maps["MinemapSelectBox"];
         } else {
-            throw new Error("不支持的地图类型" + this.mapType);
+            throw new Error("不支持的地图类型" + this.getMapType());
         }
     }
 }

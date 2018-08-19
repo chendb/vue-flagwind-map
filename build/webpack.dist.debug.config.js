@@ -13,8 +13,8 @@ module.exports = merge(webpackBaseConfig,
     {
         path: path.resolve(__dirname, "../dist"),
         publicPath: "/dist/",
-        filename: "flagwind-amap.js",
-        library: "flagwind-amap",
+        filename: "vue-flagwind-map.js",
+        library: "vue-flagwind-map",
         libraryTarget: "umd",
         umdNamedDefine: true
     },

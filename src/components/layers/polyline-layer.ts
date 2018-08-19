@@ -1,7 +1,7 @@
 
 import { component, config } from "flagwind-web";
 import maps from "flagwind-map";
-import Component from "components/component";
+import Component from "src/components/component";
 
 /**
  * 事件定义。
@@ -78,16 +78,6 @@ export default class PolylineLayerComponent extends Component {
     @config({ type: Array })
     public source: Array<object>;
 
-    /**
-     * 地图类型
-     */
-    public get mapType() {
-        if (!this.map) {
-            return null;
-        }
-        return this.map.options.mapType;
-    }
-
     public get mapComponent(): maps.FlagwindBusinessLayer {
         return this._mapComponent;
     }
@@ -108,9 +98,7 @@ export default class PolylineLayerComponent extends Component {
      */
     protected created(): void {
         // 监听 "source" 选项变动
-        this.$watch(
-            "source",
-            (source: Array<any>) => {
+        this.$watch("source",(source: Array<any>) => {
                 if (this.mapComponent) {
                     this.mapComponent.clear();
                     this.mapComponent.saveGraphicList(source);
@@ -119,9 +107,7 @@ export default class PolylineLayerComponent extends Component {
             { deep: true }
         );
 
-        this.$watch(
-            "requestStatus",
-            (v: boolean) => {
+        this.$watch("requestStatus",(v: boolean) => {
                 if (this.mapComponent) {
                     if (v) {
                         this.mapComponent.start();
@@ -135,16 +121,10 @@ export default class PolylineLayerComponent extends Component {
 
         // 监听其他选项变动
 
-        let watched = [
-            "showTooltip",
-            "showInfoWindow",
-            "selectMode"
-        ];
+        let watched = ["showTooltip","showInfoWindow","selectMode"];
 
         for (let prop of watched) {
-            this.$watch(
-                prop,
-                v => {
+            this.$watch(prop,v => {
                     if (this.mapComponent) {
                         this.mapComponent.options[prop] = v;
                     }
@@ -213,9 +193,7 @@ export default class PolylineLayerComponent extends Component {
         });
 
         if (options["showInfoWindow"] && !options["getInfoWindowContext"]) {
-            console.warn("没有定义getInfoWindowContext事件");        this.$children.forEach(child => {
-            child.$emit("layer-ready", this._mapComponent);
-        });
+            console.warn("没有定义getInfoWindowContext事件");
         }
 
         if (this.source && this.source.length > 0) {
@@ -242,12 +220,12 @@ export default class PolylineLayerComponent extends Component {
     }
 
     private getMapServiceType() {
-        if (this.mapType === "arcgis") {
+        if (this.getMapType() === "arcgis") {
             return maps["EsriPolylineLayer"];
-        } else if (this.mapType === "arcgis") {
+        } else if (this.getMapType() === "arcgis") {
             return maps["MinemapPolylineLayer"];
         } else {
-            throw new Error("不支持的地图类型" + this.mapType);
+            throw new Error("不支持的地图类型" + this.getMapType());
         }
     }
 }
