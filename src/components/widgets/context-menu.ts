@@ -2,42 +2,41 @@
 import { component, config } from "flagwind-web";
 import maps from "flagwind-map";
 import Component from "src/components/component";
-import Command from "src/models/command";
 
 /**
  * 事件定义。
  * @private
  * @const
  */
-const EVENTS = ["onCheckChanged"];
+const EVENTS = ["onClick"];
 
-const EXCULDE_NAMES = ["command"];
+const EXCULDE_NAMES = ["enabled"];
 
 /**
  * 点图层
  * @class
  * @version 1.0.0
  */
-@component({ template: require("./select-box.html")  })
-export default class SelectBoxComponent extends Component {
-    @config({ type: Command })
-    public command: Command<this>;
+@component({ template: ""  })
+export default class ContextMenuComponent extends Component {
 
-    @config({ type: Number, default: maps.SelectMode.multiple })
-    public selectMode: maps.SelectMode;
+    @config({ type: Array})
+    public menus: Array<string>;
 
-    public get mapComponent(): maps.IFlagwindSelectBox {
+    @config({ type: Boolean})
+    public enabled: boolean;
+
+    public get mapComponent(): maps.FlagwindContextMenu {
         return this._mapComponent;
     }
 
-    public set mapComponent(value: maps.IFlagwindSelectBox) {
+    public set mapComponent(value: maps.FlagwindContextMenu) {
         this._mapComponent = value;
     }
 
     public constructor() {
         super(EVENTS);
     }
-
     /**
      * 准备创建组件时调用的钩子方法。
      * @protected
@@ -45,13 +44,17 @@ export default class SelectBoxComponent extends Component {
      * @returns void
      */
     protected created(): void {
-        this.$watch("command",(command: Command<maps.IFlagwindSelectBox>) => {
-                if (this.mapComponent) {
-                    command.execute(this.mapComponent);
+
+        // 监听 "command" 选项变动
+        this.$watch("enabled", (enabled: boolean) => {
+            if (this.mapComponent) {
+                if (enabled) {
+                    this.mapComponent.enable();
+                } else {
+                    this.mapComponent.disable();
                 }
-            },
-            { deep: true }
-        );
+            }
+        });
     }
 
     /**
@@ -75,7 +78,7 @@ export default class SelectBoxComponent extends Component {
      */
     protected destroyed(): void {
         if (this.mapComponent) {
-            this.mapComponent.destroy();
+            this.mapComponent.disable();
         }
     }
 
@@ -93,19 +96,22 @@ export default class SelectBoxComponent extends Component {
             return;
         }
         // 解析配置选项
-        const options = this.resolveOptions();
+        const options = <maps.ContextMenuEventArgs>this.resolveOptions();
         this.map = map;
 
         let serviceType = this.getMapServiceType();
 
-        let selecbox = this.getService<maps.IFlagwindSelectBox>(serviceType, this.map, options);
+        let contextMenu = this.getService<maps.FlagwindContextMenu>(serviceType, this.map);
 
-        this.$children.forEach(child => {
-            child.$emit("map-ready", this.map);
-            selecbox.addLayer((<any>child).mapComponent);
-        });
+        contextMenu.startup(options);
 
-        this._mapComponent = selecbox;
+        if (this.enabled) {
+            contextMenu.enable();
+        } else {
+            contextMenu.disable();
+        }
+
+        this._mapComponent = contextMenu;
 
         this.$emit("on-build", this._mapComponent);
 
@@ -113,9 +119,9 @@ export default class SelectBoxComponent extends Component {
 
     private getMapServiceType() {
         if (this.getMapType() === "arcgis") {
-            return maps["EsriSelectBox"];
+            return maps["EsriContextMenu"];
         } else if (this.getMapType() === "arcgis") {
-            return maps["MinemapSelectBox"];
+            return maps["MinemapContextMenu"];
         } else {
             throw new Error("不支持的地图类型" + this.getMapType());
         }

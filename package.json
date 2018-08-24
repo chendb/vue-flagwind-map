@@ -28,7 +28,7 @@
     },
     "peerDependencies": {
         "esri-loader": "^2.4.0",
-        "flagwind-map": "^1.0.19",
+        "flagwind-map": "^1.0.22",
         "flagwind-core": "^1.1.0",
         "flagwind-web": "^1.0.5",
         "vue": "^2.5.7"
@@ -61,7 +61,7 @@
         "flagwind-core": "1.0.7",
         "flagwind-web": "^1.0.2",
         "esri-loader": "^2.4.0",
-        "flagwind-map": "^1.0.19",
+        "flagwind-map": "^1.0.22",
         "fork-ts-checker-webpack-plugin": "^0.4.6",
         "friendly-errors-webpack-plugin": "^1.6.1",
         "copy-webpack-plugin": "^4.5.1",

@@ -1,0 +1,53 @@
+<l-generic>
+    <div class="v-intro">
+        <h1>Heatmap Layer</h1>
+        <p>一标准化地图操作的api,为了屏蔽不同地图sdk对业务的影响,方便非地图专业人员很方便实现地图相关业务,目前对ArcGIS和Minemap两种不同地图SDK进行实现。</p>
+
+        <h2>柱状图</h2>
+        <u-example title="尺寸">
+            <template slot="case">
+                <fm-map ref="fwAmap" mapType="arcgis" @onMapLoad="onLoad" vid="esri_map" >
+                    <fm-heatmap-layer  :symbol="symbol" vid="heatmapLayer"  @changeStandardModel="onChangeStandardModel" :source="dataList">
+                    </fm-heatmap-layer>
+                </fm-map>
+            </template>
+            <template slot="desc">
+                <p>通过设置<code>width</code>、<code>height</code>属性改变 ECharts 实例的尺寸。</p>
+                <p>如果未显示指定<code>width</code>、<code>height</code>属性，则会动态计算容器的宽高做 ECharts 实例的尺寸。</p>
+            </template>
+            <!-- <u-code slot="code" lang="html">{{codes.bar}}</u-code> -->
+        </u-example>
+                    <div class="api">
+            <h2>API</h2>
+            <h3>属性</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>名称</th>
+                        <th>说明</th>
+                        <th>数据类型</th>
+                        <th>属性类型</th>
+                        <th>默认值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+
+            </table>
+
+            <h3>事件</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>事件名</th>
+                        <th>说明</th>
+                        <th>参数</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</l-generic>

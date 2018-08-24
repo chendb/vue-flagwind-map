@@ -14,15 +14,19 @@ import PolylineLayer from "src/components/layers/polyline-layer";
 import EditLayer from "src/components/layers/edit-layer";
 import TrackLayer from "src/components/layers/track-layer";
 import HeatmapLayer from "src/components/layers/heatmap-layer";
+import { SelectBoxComponent, ContextMenuComponent,InfoWindowComponent } from "src/components/widgets";
 
 const components = {
-    "fw-map": Map,
-    "fw-point-layer": PointLayer,
-    "fw-polygon-layer": PolygonLayer,
-    "fw-polyline-layer": PolylineLayer,
-    "fw-edit-layer": EditLayer,
-    "fw-track-layer": TrackLayer,
-    "fw-heatmap-layer": HeatmapLayer
+    "fm-map": Map,
+    "fm-point-layer": PointLayer,
+    "fm-polygon-layer": PolygonLayer,
+    "fm-polyline-layer": PolylineLayer,
+    "fm-edit-layer": EditLayer,
+    "fm-track-layer": TrackLayer,
+    "fm-heatmap-layer": HeatmapLayer,
+    "fm-select-box": SelectBoxComponent,
+    "fm-context-menu": ContextMenuComponent,
+    "fm-info-window": InfoWindowComponent
 };
 
 const fmap = {

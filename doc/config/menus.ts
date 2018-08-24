@@ -13,6 +13,11 @@ const menus = [
         icon: "pie-graph"
     },
     {
+        title: "地图",
+        path: "/map",
+        icon: "pie-graph"
+    },
+    {
         title: "点图层",
         path: "/point-layer",
         icon: "pie-graph"

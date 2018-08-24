@@ -1,6 +1,6 @@
 const bar = `
 <template>
-    <fw-map vid="esri_map" :setting="setting" mapType="arcgis"></fw-map>
+    <fm-map vid="esri_map" :setting="setting" mapType="arcgis"></fm-map>
 </template>
 
 <script lang="ts">

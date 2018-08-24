@@ -1,0 +1,15 @@
+<section ref="infoWindow" v-show="isShow" class="fm-widgets fm-info-window">
+    <div class="close" @click="onClose"></div>
+
+    <article>
+        <aside class="title" v-if="hasTitle">
+            <span>{{title}}</span>
+        </aside>
+        <aside class="content" @click="triggerEvent($event)">
+            <slot></slot>
+        </aside>
+    </article>
+
+    <article class="point-wave" ref="pointWave" v-show="showWare"></article>
+
+</section>

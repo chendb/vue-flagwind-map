@@ -1,17 +1,6 @@
-/*!
- * Authors:
- *      jason <jasonsoop@gmail.com>
- * 
- * Licensed under the MIT License.
- * Copyright (C) 2010-present Flagwind Inc. All rights reserved. 
- */
-
-import flagwind from "flagwind-core";
-import ApplicationContext from "./application/context";
+const bar = `
 import { setting, MapLoader } from "src/index";
 
-// 获取应用上下文
-let context = ApplicationContext.current;
 setting.arcgis = {
     ...setting.arcgis, ...{
         arcgisApi: "http://120.202.26.100:8081/arcgis4js/library/3.21/",
@@ -27,7 +16,6 @@ setting.arcgis = {
     }
 };
 MapLoader.loadCss(setting.arcgis);
-MapLoader.loadScript(setting.arcgis);
+MapLoader.loadScript(setting.arcgis);`;
 
-// 启动应用程序
-flagwind.Application.start(context);
+export default bar;
