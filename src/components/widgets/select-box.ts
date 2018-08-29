@@ -2,6 +2,7 @@
 import { component, config } from "flagwind-web";
 import maps from "flagwind-map";
 import Component from "src/components/component";
+import "./select-box.less";
 
 /**
  * 事件定义。
@@ -21,7 +22,7 @@ const EXCULDE_NAMES = ["command"];
 export default class SelectBoxComponent extends Component {
 
     @config({ type: Number, default: maps.SelectMode.multiple })
-    public selectMode: maps.SelectMode;
+    public selectMode: maps.SelectMode = maps.SelectMode.multiple;
 
     public get mapComponent(): maps.IFlagwindSelectBox {
         return this._mapComponent;
@@ -33,6 +34,10 @@ export default class SelectBoxComponent extends Component {
 
     public constructor() {
         super(EVENTS);
+    }
+
+    protected active(mode: string) {
+        this._mapComponent.active(mode);
     }
 
     /**
@@ -87,6 +92,7 @@ export default class SelectBoxComponent extends Component {
         });
 
         this._mapComponent = selecbox;
+        selecbox.deleteSelectBar();
 
         this.$emit("on-build", this._mapComponent);
 

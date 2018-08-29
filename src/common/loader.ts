@@ -3,33 +3,43 @@ import { loadScript, loadModules, loadCss } from "esri-loader";
 declare let dojo: any;
 declare let dojox: any;
 declare let esri: any;
+// declare let mapv: any;
 
 export default class MapLoader {
-
+    protected static options: any;
     public static loadCss(setting: any) {
         loadCss(`${setting.arcgisApi}esri/css/esri.css`);
         loadCss(`${setting.arcgisApi}dijit/themes/claro/claro.css`);
     }
 
     public static loadScript(setting: any) {
-        const options = {
-            url: `${setting.arcgisApi}init.js`
-        };
-        return loadScript(options);
-    }
+        let index = window.location.href.lastIndexOf(window.location.hash);
+        let url = window.location.href.substr(0, index);
+        if (index < 0) {
+            url = window.location.origin + "/";
+        }
 
-    public static loadModules(): Promise<any> {
-        const options = {
+        const options = (MapLoader.options = {
+            url: `${setting.arcgisApi}init.js`,
             dojoConfig: {
                 async: true,
                 packages: [
                     {
-                        location: "./static/esri/layers",
+                        location: url + "static/esri/layers",
                         name: "extras"
+                    },
+                    {
+                        location: url + "static/egova",
+                        name: "egova1"
                     }
                 ]
             }
-        };
+        });
+
+        return loadScript(options);
+    }
+
+    public static loadModules(): Promise<any> {
         return loadModules(
             [
                 "dojo/parser",
@@ -42,6 +52,10 @@ export default class MapLoader {
                 "dojox/gfx/fx",
                 "dojox/gesture/tap",
                 "./static/esri/layers/ClusterLayer.js",
+                "./static/esri/layers/EchartsLayer.js",
+                // "./static/esri/layers/OverLayer.js",
+
+                "./static/esri/layers/CanvasLayer.js",
 
                 "esri/geometry/geometryEngine",
                 "esri/renderers/ClassBreaksRenderer",
@@ -75,10 +89,7 @@ export default class MapLoader {
                 "esri/tasks/RouteParameters",
                 "esri/tasks/FeatureSet",
                 "esri/dijit/InfoWindow"
-
-                // "./static/lib/heatmap.js"
-            ],
-            options
+            ]
         ).then(
             ([
                 parser,
@@ -91,6 +102,10 @@ export default class MapLoader {
                 dojoxGfxFx,
                 dojoxGestureTap,
                 clusterLayer,
+                echartsLayer,
+      
+                canvasLayer,
+
                 geometryEngine,
                 esriRenderersClassBreaksRenderer
             ]) => {
@@ -110,10 +125,13 @@ export default class MapLoader {
                     ClassBreaksRenderer: esriRenderersClassBreaksRenderer
                 };
                 esri.layers.ClusterLayer = clusterLayer;
+                esri.layers.EchartsLayer = echartsLayer;
+   
+                esri.layers.CanvasLayer = canvasLayer;
                 if (!esri.geometry.geometryEngine) {
                     esri.geometry.geometryEngine = geometryEngine;
                 }
-                // (<any>window).HeatmapLayer =  esri.layers.HeatmapLayer = heatmapLayer;
+
             }
         );
     }

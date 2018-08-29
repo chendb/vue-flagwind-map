@@ -1,5 +1,6 @@
 import { component, View } from "flagwind-web";
 import maps from "flagwind-map";
+import { InfoWindowComponent } from "src/components/widgets";
 
 @component({ template: require("./index.html") })
 export default class Intro extends View {
@@ -11,47 +12,41 @@ export default class Intro extends View {
         { id: "5", name: "李妈", longitude: 118.7135, latitude: 37.1468 }
     ];
 
-    protected symbol = {
+    protected layer: maps.FlagwindBusinessLayer;
+
+    protected pointSymbol = {
         height: 32,
         width: 32,
         imageUrl: "/static/map/point.png"
     };
 
-    protected onSelectBoxBuild(layer: maps.IFlagwindSelectBox) {
-        // layer.showSelectBar();
+    protected point = {
+        longitude: 118.7135,
+        latitude: 37.1468,
+        data: { id: "5", name: "李妈", longitude: 118.7135, latitude: 37.1468 }
+    };
+
+    protected onLayerBuild(layer: maps.FlagwindBusinessLayer) {
+        this.layer = layer;
     }
-    protected onEditInfo(model: any, isSave: boolean): Promise<boolean> {
-        return new Promise<boolean>((resolve, reject) => {
-            alert(model.id);
-            resolve(true);
-        });
+
+    protected onOpenInfoWindow() {
+        let infoWindow = <InfoWindowComponent>this.$refs.fmInfoWindow;
+        if (this.layer) {
+            infoWindow.bind(this.layer);
+        }
     }
-    protected onCheckChanged(evt: any) {
-        alert(evt);
-    }
+
     protected onLayerClick(evt: any) {
         // console.log(evt.graphic.attributes);
         // alert(evt.graphic.attributes.name);
     }
+
     protected onChangeStandardModel(model: any) {
         return model;
     }
+
     protected onLoad() {
         //
     }
-
-    /**
-     * 演示需要的代码。
-     * @protected
-     * @member
-     * @returns any
-     */
-    // protected codes: any = codes;
-    /**
-     * 演示需要的数据选项。
-     * @protected
-     * @member
-     * @returns any
-     */
-    // protected options: any = options;
 }

@@ -6,15 +6,21 @@
         <h2>柱状图</h2>
         <u-example title="尺寸">
             <template slot="case">
-                <i-button @click="startTrack">播放</i-button>
-                <fm-map ref="fwAmap" mapType="arcgis" @onMapLoad="onLoad" vid="esri_map">
-                    <fm-track-layer @getImageUrl="getImageUrl" @getImageAngle="getImageAngle" @on-build="onTrackBuild" :symbol="carSymbol">
-                        <fm-point-layer :enableCluster="false" :enableEdit="true" :showInfoWindow="true" :symbol="pointSymbol" vid="tollgateLayer"
-                            @onLayerClick="onLayerClick" @changeStandardModel="onChangeStandardModel" :source="dataList">
-                        </fm-point-layer>
-                    </fm-track-layer>
-                </fm-map>
 
+
+                <fm-map ref="fwAmap" mapType="arcgis" @onMapLoad="onLoad" vid="esri_map">
+
+                    <fm-point-layer @on-build="onLayerBuild" :enableCluster="false" :showTooltip="true" :enableEdit="true" :showInfoWindow="true"
+                        :symbol="pointSymbol" vid="tollgateLayer" @onLayerClick="onLayerClick" @changeStandardModel="onChangeStandardModel"
+                        :source="dataList">
+                        <fm-info-window ref="fmInfoWindow" :showWare="true">
+                            <p>0000000</p>
+                        </fm-info-window>
+                    </fm-point-layer>
+
+
+                </fm-map>
+                <i-button @click="onOpenInfoWindow">打开</i-button>
             </template>
             <template slot="desc">
                 <p>通过设置

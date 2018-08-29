@@ -14,7 +14,8 @@ import PolylineLayer from "src/components/layers/polyline-layer";
 import EditLayer from "src/components/layers/edit-layer";
 import TrackLayer from "src/components/layers/track-layer";
 import HeatmapLayer from "src/components/layers/heatmap-layer";
-import { SelectBoxComponent, ContextMenuComponent,InfoWindowComponent } from "src/components/widgets";
+
+import { SelectBoxComponent, ContextMenuComponent,InfoWindowComponent,Overlay } from "src/components/widgets";
 
 const components = {
     "fm-map": Map,
@@ -26,7 +27,8 @@ const components = {
     "fm-heatmap-layer": HeatmapLayer,
     "fm-select-box": SelectBoxComponent,
     "fm-context-menu": ContextMenuComponent,
-    "fm-info-window": InfoWindowComponent
+    "fm-info-window": InfoWindowComponent,
+    "fm-overlay": Overlay
 };
 
 const fmap = {

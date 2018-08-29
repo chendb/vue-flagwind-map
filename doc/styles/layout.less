@@ -1,170 +1,170 @@
-/*!
- * Authors:
- *      jason <jasonsoop@gmail.com>
- * 
- * Licensed under the MIT License.
- * Copyright (C) 2010-2017 Flagwind Inc. All rights reserved. 
- */
+// /*!
+//  * Authors:
+//  *      jason <jasonsoop@gmail.com>
+//  * 
+//  * Licensed under the MIT License.
+//  * Copyright (C) 2010-2017 Flagwind Inc. All rights reserved. 
+//  */
 
-/* ============================== 布局(Layout) =========================== */
+// /* ============================== 布局(Layout) =========================== */
 
-.layout
-{
-    background-color: #f5f7f9;
-    padding: 1px;
+// @header-height: 70px;
+// .layout {
+//     background-color: #f5f7f9;
+//     padding: 1px;
 
-    &-header
-    {
-        background-color: #2d8cf0;
+//     &-header {
+//         background-color: #2d8cf0;
 
-        .ivu-menu
-        {
-            width: 90%;
-            height:70px;
-            line-height: 70px;
-            margin: 0 auto;
-            
-            .ivu-menu-item
-            {
-                font-size: 15px;
-            }
-    
-            &:after
-            {
-                display: none !important;
-            }
-        }
-    }
+//         .ivu-menu {
+//             width: 90%;
+//             height: @header-height;
+//             line-height: @header-height;
+//             margin: 0 auto;
 
-    &-wrapper
-    {
-        width: 90%;
-        margin: 30px auto 20px;
-        border-radius: 6px;
-        background-color: #fff;
-        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .1)
-    }
+//             .ivu-menu-item {
+//                 font-size: 15px;
+//             }
 
-    &-sidebar
-    {
-        font-size: 14px;
-        padding: 15px 0;
+//             &:after {
+//                 display: none !important;
+//             }
+//         }
+//     }
 
-        .ivu-menu-item
-        {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-    }
+//     &-wrapper {
+//         position: absolute;
+//         right: 0;
+//         top: @header-height;
+//         bottom: 0;
+//         left: 0;
+//         padding: 0px 0px 1px 1px;
+//         width: 100%;
+//         background-color: #fff;
+//         box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+//         display: flex;
+//         flex-flow: row;
+//         align-items: stretch;
+//         .layout-left {
+//             width: 240px;
+//             background-color: #495060;
+//         }
+//         .layout-right {
+//             flex: 1;
+//         }
+//     }
 
-    &-content
-    {
-        padding: 20px 25px;
-        position: relative;
+//     &-sidebar {
+//         font-size: 14px;
+//         padding: 15px 0;
 
-        &:after
-        {
-            content: "";
-            display: block;
-            width: 1px;
-            background-color: #d7dde4;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            left: -1px
-        }
-    }
+//         .ivu-menu-item {
+//             overflow: hidden;
+//             text-overflow: ellipsis;
+//             white-space: nowrap;
+//         }
+//     }
 
-    h1, h2, h3, h4, h5, h6
-    {
-        display: block;
-    }
+//     &-content {
+//         padding: 20px 25px;
+//         position: relative;
 
-    h1, h2, blockquote
-    {
-        margin: 12px 0;
-    }
+//         &:after {
+//             content: "";
+//             display: block;
+//             width: 1px;
+//             background-color: #d7dde4;
+//             position: absolute;
+//             top: 0;
+//             bottom: 0;
+//             left: -1px;
+//         }
+//     }
 
-    h3
-    {
-        margin: 8px 0;
-    }
+//     h1,
+//     h2,
+//     h3,
+//     h4,
+//     h5,
+//     h6 {
+//         display: block;
+//     }
 
-    h1
-    {
-        font-size: 26px;
-        font-weight: normal;
-    }
+//     h1,
+//     h2,
+//     blockquote {
+//         margin: 12px 0;
+//     }
 
-    h2
-    {
-        font-size: 20px;
-        font-weight: normal;
-    }
+//     h3 {
+//         margin: 8px 0;
+//     }
 
-    h3
-    {
-        font-size: 16px;
-        font-weight: normal;
-    }
+//     h1 {
+//         font-size: 26px;
+//         font-weight: normal;
+//     }
 
-    h4
-    {
-        font-size: 14px;
-        font-weight: normal;
-    }
+//     h2 {
+//         font-size: 20px;
+//         font-weight: normal;
+//     }
 
-    h5
-    {
-        font-size: 12px;
-        font-weight: normal;
-    }
+//     h3 {
+//         font-size: 16px;
+//         font-weight: normal;
+//     }
 
-    h6
-    {
-        font-size: 12px;
-        font-weight: normal;
-    }
+//     h4 {
+//         font-size: 14px;
+//         font-weight: normal;
+//     }
 
-    blockquote
-    {
-        margin-bottom: 20px;
-        padding: 5px 5px 3px 10px;
-        border-left: 4px solid #ddd;
-        line-height: 1.5;
-        color: #666;
-        font-size: 14px;
-    }
+//     h5 {
+//         font-size: 12px;
+//         font-weight: normal;
+//     }
 
-    // ul:not([class^="ivu-"])
-    // {
-    //     padding-left: 40px;
-    //     list-style-type: disc;
-    // }
+//     h6 {
+//         font-size: 12px;
+//         font-weight: normal;
+//     }
 
-    // li:not([class^="ivu-"])
-    // {
-    //     margin-bottom: 5px;
-    //     font-size: 14px;
-    // }
+//     blockquote {
+//         margin-bottom: 20px;
+//         padding: 5px 5px 3px 10px;
+//         border-left: 4px solid #ddd;
+//         line-height: 1.5;
+//         color: #666;
+//         font-size: 14px;
+//     }
 
-    // ul ul:not([class^="ivu-"]), ol ul:not([class^="ivu-"])
-    // {
-    //     list-style-type: circle;
-    // }
+//     // ul:not([class^="ivu-"])
+//     // {
+//     //     padding-left: 40px;
+//     //     list-style-type: disc;
+//     // }
 
-    p
-    {
-        margin: 5px;
-        font-size: 14px;
-    }
-    
-    a[target="_blank"]:after
-    {
-        content: "\F220";
-        margin-left: 3px;
-        font-family: Ionicons;
-        color: #aaa;
-    }
-}
+//     // li:not([class^="ivu-"])
+//     // {
+//     //     margin-bottom: 5px;
+//     //     font-size: 14px;
+//     // }
+
+//     // ul ul:not([class^="ivu-"]), ol ul:not([class^="ivu-"])
+//     // {
+//     //     list-style-type: circle;
+//     // }
+
+//     p {
+//         margin: 5px;
+//         font-size: 14px;
+//     }
+
+//     a[target="_blank"]:after {
+//         content: "\F220";
+//         margin-left: 3px;
+//         font-family: Ionicons;
+//         color: #aaa;
+//     }
+// }

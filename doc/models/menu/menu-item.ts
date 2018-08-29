@@ -13,6 +13,7 @@
  */
 export default interface IMenuItem
 {
+    name: string;
     /**
      * 获取或设置标题。
      * @property

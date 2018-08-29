@@ -1,13 +1,20 @@
-<section ref="infoWindow" v-show="isShow" class="fm-widgets fm-info-window">
+<section ref="infoWindow"  :class="{'active':(visible && !zooming)}" class="fm-widgets fm-info-window">
     <div class="close" @click="onClose"></div>
 
     <article>
-        <aside class="title" v-if="hasTitle">
-            <span>{{title}}</span>
+        
+        <aside class="title" >
+            <span v-if="hasTitle">{{title}}</span>
+            <slot name="title"></slot>
         </aside>
         <aside class="content" @click="triggerEvent($event)">
-            <slot></slot>
+            <div v-html="content"></div>
+            <slot name="content"></slot>
         </aside>
+        <aside class="footer" @click="triggerEvent($event)">
+            <slot name="footer"></slot>
+        </aside>
+
     </article>
 
     <article class="point-wave" ref="pointWave" v-show="showWare"></article>

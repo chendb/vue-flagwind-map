@@ -1,4 +1,4 @@
-<l-generic>
+
     <div class="v-intro">
         <h1>Select Box</h1>
         <p>一标准化地图操作的api,为了屏蔽不同地图sdk对业务的影响,方便非地图专业人员很方便实现地图相关业务,目前对ArcGIS和Minemap两种不同地图SDK进行实现。</p>
@@ -6,17 +6,17 @@
         <h2>柱状图</h2>
         <u-example title="尺寸">
             <template slot="case">
-              <i-button >张三</i-button>
+
                 <fm-map ref="fwAmap"  mapType="arcgis" @onMapLoad="onLoad" vid="esri_map" >
                   <fm-select-box @on-build="onSelectBoxBuild" @onCheckChanged="onCheckChanged">
-                    <u-point-layer 
+                    <fm-point-layer 
                     :enableCluster="false" 
                     :enableEdit="true" 
                     :showInfoWindow="true" 
                     :symbol="symbol" 
                     vid="tollgateLayer" 
                     @onLayerClick="onLayerClick" @changeStandardModel="onChangeStandardModel" :source="dataList">
-                    </u-point-layer>
+                    </fm-point-layer>
                   </fm-select-box>
                 </fm-map>
             </template>
@@ -59,4 +59,3 @@
         </div>
 
     </div>
-</l-generic>

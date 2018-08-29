@@ -1,21 +1,23 @@
 
     <div class="v-intro">
-        <h1>Track Layer</h1>
+        <h1>Overlay</h1>
         <p>一标准化地图操作的api,为了屏蔽不同地图sdk对业务的影响,方便非地图专业人员很方便实现地图相关业务,目前对ArcGIS和Minemap两种不同地图SDK进行实现。</p>
 
         <h2>柱状图</h2>
         <u-example title="尺寸">
-            <template slot="case">
-                <i-button @click="startTrack">播放</i-button>
-                <fm-map ref="fwAmap" mapType="arcgis" @onMapLoad="onLoad" vid="esri_map">
-                    <fm-track-layer @getImageUrl="getImageUrl" @getImageAngle="getImageAngle" @on-build="onTrackBuild" :symbol="carSymbol">
-                        <fm-point-layer :enableCluster="false" :enableEdit="true" :showInfoWindow="true" :symbol="pointSymbol" vid="tollgateLayer"
-                            @onLayerClick="onLayerClick" @changeStandardModel="onChangeStandardModel" :source="dataList">
-                        </fm-point-layer>
-                    </fm-track-layer>
-                </fm-map>
 
+            <template slot="case">
+                <fm-map ref="fwAmap" mapType="arcgis" @onMapLoad="onLoad" vid="esri_map">
+                    <fm-overlay :point="point">
+                        这是一个遮罩物<br/>
+                        你可以在这里放你自己的组件，显示在地图上{{point.data.name}}
+                    </fm-overlay>
+                    <fm-point-layer @on-build="onLayerBuild" :enableCluster="false" :showTooltip="true" :enableEdit="true" :showInfoWindow="true" :symbol="pointSymbol" vid="tollgateLayer"
+                        @onLayerClick="onLayerClick" @changeStandardModel="onChangeStandardModel" :source="dataList">
+                    </fm-point-layer>
+                </fm-map>
             </template>
+
             <template slot="desc">
                 <p>通过设置
                     <code>width</code>、
@@ -60,4 +62,3 @@
         </div>
 
     </div>
-
