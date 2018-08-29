@@ -24,6 +24,8 @@ module.exports = merge(webpackBaseConfig,
         "vue-router": "vue-router",
         "vuex": "vuex",
         "flagwind-core": "flagwind-core",
+        "flagwind-map": "flagwind-map",
+        "esri-load": "esri-load",
         "flagwind-web": "flagwind-web"
     },
     plugins:

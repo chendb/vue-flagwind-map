@@ -27,12 +27,10 @@
         "uppercamelcase": "^3.0.0"
     },
     "peerDependencies": {
-        "esri-loader": "^2.4.0",
-        "flagwind-map": "^1.0.26",
-        "flagwind-core": "^1.1.0",
-        "flagwind-web": "^1.0.7",
-        "iview": "^3.0.1",
-        "vue": "^2.5.17"
+        "esri-loader": ">=2.4.0",
+        "flagwind-map": "1.x",
+        "flagwind-core": "1.x",
+        "flagwind-web": "1.x"
     },
     "devDependencies": {
         "@types/chai": "^4.0.4",
