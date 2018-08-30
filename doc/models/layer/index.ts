@@ -6,13 +6,9 @@
  * Copyright (C) 2010-present Flagwind Inc. All rights reserved. 
  */
 
-import Menu from "./menu";
-import Layer from "./layer";
+import ILayerOptions from "./layer-options";
 
-const modules =
+export
 {
-    menu: new Menu(),
-    layer: new Layer()
+    ILayerOptions
 };
-
-export default modules;
