@@ -34,15 +34,9 @@
             "es5",
             "es2015.promise"
         ],
-        "baseUrl": ".",
+        "baseUrl": "./",
         "paths": {
-            "src": ["./src"],
-            "config/*": ["./src/config/*"],
-            "models": ["./src/models"],
-            "models/*": ["./src/models/*"],
-            "common/*": ["./src/common/*"],
-            "mixins/*": ["./src/mixins/*"],
-            "components/*": ["./src/components/*"]
+            "src": ["src"]
         }
     }
 }

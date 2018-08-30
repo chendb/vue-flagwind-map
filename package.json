@@ -1,14 +1,13 @@
 {
     "name": "vue-flagwind-map",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "A Vue.js project",
     "author": "chendebao <chendebao1985@163.com>",
     "scripts": {
-        "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8020 --config build/webpack.dev.config.js",
+        "dev": "webpack-dev-server --content-base test/ --open --inline --hot --compress --history-api-fallback --port 8010 --config build/webpack.dev.config.js",
         "dist:clean": "node build/build.clean.js",
         "dist:debug": "webpack --config build/webpack.dist.debug.config.js",
         "dist:release": "webpack --config build/webpack.dist.release.config.js",
-        "dist:docs": "webpack --config build/webpack.dist.docs.config.js",
         "dist": "npm run dist:clean && npm run dist:debug && npm run dist:release",
         "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
         "test": "npm run unit"
@@ -21,8 +20,18 @@
     "keywords": [
         "flagwind",
         "map",
+        "flagwind-map",
         "typescript"
     ],
+    "license": "MIT",
+    "homepage": "http://www.chendb.org",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/chendb/vue-flagwind-map"
+    },
+    "bugs": {
+        "url": "https://github.com/chendb/vue-flagwind-map/issues"
+    },
     "dependencies": {
         "uppercamelcase": "^3.0.0"
     },
@@ -35,7 +44,6 @@
     "devDependencies": {
         "@types/chai": "^4.0.4",
         "@types/clipboard": "^1.5.35",
-        "@types/echarts": "^4.1.1",
         "@types/highlight.js": "^9.12.2",
         "@types/lodash": "^4.14.100",
         "@types/lodash.debounce": "^4.0.3",
@@ -100,7 +108,7 @@
         "tslint": "^5.8.0",
         "tslint-config-flagwind": "1.0.1",
         "tslint-loader": "^3.5.3",
-        "typescript": "^2.6.1",
+        "typescript": "^3.0.3",
         "url-loader": "^0.6.2",
         "vue": "^2.5.7",
         "vue-hot-reload-api": "^2.2.4",

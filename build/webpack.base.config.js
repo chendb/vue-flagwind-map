@@ -1,6 +1,5 @@
 const path = require("path");
 const webpack = require("webpack");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 function resolve(dir)
 {
@@ -15,12 +14,7 @@ module.exports =
         alias:
         {
             "vue$": "vue/dist/vue.esm.js",
-            "src": resolve("src"),
-            "config": resolve("src/config"),
-            "models": resolve("src/models"),
-            "common": resolve("src/common"),
-            "mixins": resolve("src/mixins"),
-            "components": resolve("src/components")
+            "src": resolve("src")
         }
     },
     module:
@@ -39,14 +33,13 @@ module.exports =
                 exclude: /node_modules/,
                 options: {
                     appendTsSuffixTo: [/\.vue$/],
-                    transpileOnly: true
                 }
             },
             {
                 test: /\.js$/,
                 loader: "babel-loader",
-                // exclude: /node_modules/,
-                include: [resolve("src"), resolve("node_modules/uppercamelcase"), resolve("node_modules/camelcase"), resolve("test")]
+                include: [resolve("src"), resolve("test")],
+                exclude: /node_modules/
             },
             {
                 test: /\.vue$/,
@@ -72,13 +65,6 @@ module.exports =
                     "css-loader"
                 ]
             },
-            // {
-            //     test: /\.less$/,
-            //     use: ExtractTextPlugin.extract({
-            //         fallback: "style-loader",
-            //         use: ["css-loader", "less-loader"]
-            //     })
-            // },
             {
                 test: /\.less$/,
                 use:
@@ -109,12 +95,6 @@ module.exports =
     },
     plugins:
     [
-        new webpack.optimize.ModuleConcatenationPlugin(),
-        new webpack.WatchIgnorePlugin([/\.d\.ts$/]),
-        new ForkTsCheckerWebpackPlugin
-        ({
-            tslint: true,
-            vue: true
-        })
+        new webpack.optimize.ModuleConcatenationPlugin()
     ]
 };
