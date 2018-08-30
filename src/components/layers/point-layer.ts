@@ -21,7 +21,7 @@ const EVENTS = [
     "onEvent"
 ];
 
-const EXCULDE_NAMES = ["requestData", "requestStatus", "vid", "source"];
+const EXCULDE_NAMES = ["requestData", "requestStatus", "vid", "source" , "options"];
 
 /**
  * 点图层
@@ -40,6 +40,9 @@ export default class PointLayerComponent extends Component {
      */
     @config({ type: String })
     public vid: string;
+
+    @config({ type: Object })
+    public options: any;
 
     /**
      * 是否启用坐标修改功能
@@ -180,7 +183,9 @@ export default class PointLayerComponent extends Component {
         this.map = map;
 
         // 解析配置选项
-        const options = this.resolveOptions();
+        let options = this.resolveOptions();
+
+        options = { ...this.options, ...options };
  
         let serviceType = this.getMapServiceType();
 

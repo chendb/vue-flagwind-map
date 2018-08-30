@@ -1,4 +1,4 @@
-import { component } from "flagwind-web";
+import { component, config } from "flagwind-web";
 import maps from "flagwind-map";
 import Component from "src/components/component";
 
@@ -9,7 +9,7 @@ import Component from "src/components/component";
  */
 const EVENTS = ["onEditInfo"];
 
-const EXCULDE_NAMES = ["command"];
+const EXCULDE_NAMES = ["options"];
 
 /**
  * 点图层
@@ -18,6 +18,9 @@ const EXCULDE_NAMES = ["command"];
  */
 @component({ template: require("./edit-layer.html") })
 export default class EditLayerComponent extends Component {
+    
+    @config({ type: Object })
+    public options: any;
 
     public get mapComponent(): maps.IFlagwindEditLayer {
         return this._mapComponent;
@@ -72,7 +75,9 @@ export default class EditLayerComponent extends Component {
         this.map = map;
 
         // 解析配置选项
-        const options = this.resolveOptions();
+        let options = this.resolveOptions();
+
+        options = { ...this.options, ...options };
 
         let serviceType = this.getMapServiceType();
 

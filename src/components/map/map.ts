@@ -32,7 +32,7 @@ const EVENTS = [
     "onResize"
 ];
 
-const EXCULDE_NAMES = ["setting", "vid"];
+const EXCULDE_NAMES = ["setting", "vid","options"];
 
 /**
  * 高德地图组件。
@@ -54,6 +54,9 @@ export default class MapComponent extends Component {
 
     @config({ type: Object })
     public setting: Object;
+
+    @config({ type: Object })
+    public options: any;
 
     /**
      * 获取或设置地图容器的ID。
@@ -173,7 +176,10 @@ export default class MapComponent extends Component {
         }
 
         // 解析配置选项
-        const options = this.resolveOptions();
+        let options = this.resolveOptions();
+
+        options = { ...this.options, ...options };
+        
         let setting = <maps.IMapSetting>{...arcgisSetting, ...this.setting};
 
         let serviceType = this.getMapServiceType();

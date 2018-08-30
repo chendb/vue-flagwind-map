@@ -10,7 +10,7 @@ import Component from "src/components/component";
  */
 const EVENTS = ["changeStandardModel"];
 
-const EXCULDE_NAMES = ["vid", "source"];
+const EXCULDE_NAMES = ["vid", "source" , "options"];
 
 /**
  * 点图层
@@ -29,6 +29,9 @@ export default class HeatmapLayerComponent extends Component {
      */
     @config({ type: String })
     public vid: string;
+
+    @config({ type: Object })
+    public options: any;
 
     @config({ type: Object })
     public symbol: any;
@@ -117,7 +120,9 @@ export default class HeatmapLayerComponent extends Component {
         this.map = map;
 
         // 解析配置选项
-        const options = this.resolveOptions();
+        let options = this.resolveOptions();
+
+        options = { ...this.options, ...options };
 
         let serviceType = this.getMapServiceType();
 

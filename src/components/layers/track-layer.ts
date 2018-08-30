@@ -10,7 +10,7 @@ import Component from "src/components/component";
  */
 const EVENTS = ["getImageUrl","getImageAngle"];
 
-const EXCULDE_NAMES = ["map","command"];
+const EXCULDE_NAMES = ["map","options"];
 
 /**
  * 点图层
@@ -19,9 +19,11 @@ const EXCULDE_NAMES = ["map","command"];
  */
 @component({ template: require("./track-layer.html") })
 export default class TrackLayerComponent extends Component {
-
     @config({ type: Object })
     public symbol: any;
+
+    @config({ type: Object })
+    public options: any;
 
     public get mapComponent(): maps.FlagwindTrackLayer {
         return this._mapComponent;
@@ -77,7 +79,9 @@ export default class TrackLayerComponent extends Component {
         this.map = flagwindMap;
 
         // 解析配置选项
-        const options = this.resolveOptions();
+        let options = this.resolveOptions();
+
+        options = { ...this.options, ...options };
 
         let serviceType = this.getMapServiceType();
 
@@ -89,13 +93,17 @@ export default class TrackLayerComponent extends Component {
             child.$emit("map-ready", this.map);
         });
         let layer = (<Component>this.$children[0]).mapComponent;
-        this._mapComponent = this.getService<maps.FlagwindTrackLayer>(serviceType, layer, options);
+        this._mapComponent = this.getService<maps.FlagwindTrackLayer>(
+            serviceType,
+            layer,
+            options
+        );
         this.$emit("on-build", this._mapComponent);
 
-        if  (!options["getImageUrl"]) {
+        if (!options["getImageUrl"]) {
             console.warn("getImageUrl未设置，移动目标可能无法显示");
         }
-        if  (!options["getImageAngle"]) {
+        if (!options["getImageAngle"]) {
             console.warn("getImageAngle未设置，移动目标方向设置可能存在问题");
         }
     }

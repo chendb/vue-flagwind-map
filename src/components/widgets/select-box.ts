@@ -11,7 +11,7 @@ import "./select-box.less";
  */
 const EVENTS = ["onCheckChanged"];
 
-const EXCULDE_NAMES = ["command"];
+const EXCULDE_NAMES = ["command","options"];
 
 /**
  * 点图层
@@ -23,6 +23,9 @@ export default class SelectBoxComponent extends Component {
 
     @config({ type: Number, default: maps.SelectMode.multiple })
     public selectMode: maps.SelectMode = maps.SelectMode.multiple;
+
+    @config({ type: Object })
+    public options: any;
 
     public get mapComponent(): maps.IFlagwindSelectBox {
         return this._mapComponent;
@@ -79,7 +82,10 @@ export default class SelectBoxComponent extends Component {
             return;
         }
         // 解析配置选项
-        const options = this.resolveOptions();
+        let options = this.resolveOptions();
+
+        options = { ...this.options, ...options };
+
         this.map = map;
 
         let serviceType = this.getMapServiceType();
