@@ -206,15 +206,15 @@ export default class PolygonLayerComponent extends Component {
             this._mapComponent.saveGraphicList(this.source);
         }
 
-        if (this.requestData && !options["showDataList"]) {
-            console.warn("requestData为true时，必须定义showDataList事件");
+        if (this.requestData && !options["getDataList"]) {
+            console.warn("requestData为true时，必须定义getDataList事件");
         }
 
         if (this.requestStatus && !options["getLastStatus"]) {
             console.warn("requestStatus为true时，必须定义getLastStatus事件");
         }
 
-        if (this.requestData && options["showDataList"]) {
+        if (this.requestData && options["getDataList"]) {
             this._mapComponent.showDataList();
         }
 
