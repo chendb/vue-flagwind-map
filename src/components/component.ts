@@ -64,7 +64,7 @@ export default abstract class Component extends ComponentBase {
         if (!this.map) {
             return null;
         }
-        return this.map.options.mapType;
+        return this.map.options.mapType || "arcgis";
     }
 
     /**

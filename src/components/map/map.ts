@@ -174,8 +174,9 @@ export default class MapComponent extends Component {
 
         // 解析配置选项
         let options = this.resolveOptions();
-
+        (<any>options).mapType = this.mapType;
         options = { ...this.options, ...options };
+       
         let defaultSetting: any =
             SETTING.mapType === "arcgis" ? SETTING.arcgis : SETTING.minemap;
         let setting = <maps.IMapSetting>{ ...defaultSetting, ...this.setting };
