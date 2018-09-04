@@ -18,17 +18,17 @@ export default class TrackLayerView extends View {
     protected carSymbol = {
         height: 32,
         width: 32,
-        imageUrl: "/static/map/car.png"
+        imageUrl: "./static/map/car.png"
     };
 
     protected pointSymbol = {
         height: 32,
         width: 32,
-        imageUrl: "/static/map/point.png"
+        imageUrl: "./static/map/point.png"
     };
 
     protected getImageUrl(trackLine: maps.TrackLine, angle: number) {
-        return "/static/map/car.png";
+        return "./static/map/car.png";
     }
 
     protected getImageAngle(trackLine: maps.TrackLine, angle: number) {

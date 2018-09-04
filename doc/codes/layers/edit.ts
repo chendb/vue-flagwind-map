@@ -26,7 +26,7 @@ export default class EditLayerView extends View {
     protected symbol = {
         height: 32,
         width: 32,
-        imageUrl: "/static/map/point.png"
+        imageUrl: "./static/map/point.png"
     };
 
     protected onEditInfo(model: any, isSave: boolean): Promise<boolean> {

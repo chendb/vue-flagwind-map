@@ -50,7 +50,7 @@ export default class InfoWindowView extends View {
     protected pointSymbol = {
         height: 32,
         width: 32,
-        imageUrl: "/static/map/point.png"
+        imageUrl: "./static/map/point.png"
     };
 
     protected point = {

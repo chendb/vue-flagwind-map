@@ -16,7 +16,7 @@ export default class PointLayerView extends View {
     protected symbol = {
         height: 32,
         width: 32,
-        imageUrl: "/static/map/point.png"
+        imageUrl: "./static/map/point.png"
     };
 
     protected onChangeStandardModel(model: any) {
