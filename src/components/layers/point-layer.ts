@@ -72,13 +72,13 @@ export default class PointLayerComponent extends Component {
     public showInfoWindow: boolean;
 
     /**
-     * 是否异常请求数据
+     * 是否异步请求数据
      */
     @config({ type: Boolean })
     public requestData: boolean;
 
     /**
-     * 是否异常请求状态
+     * 是否异步请求状态
      */
     @config({ type: Boolean })
     public requestStatus: boolean;

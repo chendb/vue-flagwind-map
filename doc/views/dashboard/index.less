@@ -9,7 +9,7 @@
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     }
     &-content {
-        margin: 10px;
+        margin: 20px 30px;
     }
     .layout-logo-left {
         width: 90%;
@@ -17,6 +17,20 @@
         background: #5b6270;
         border-radius: 3px;
         margin: 15px auto;
+    }
+    .ivu-layout-sider-collapsed{
+        .ivu-menu{
+            font-size: 30px;
+            span{
+                display: none;
+            }
+            .ivu-icon-ios-arrow-down{
+                display: none;
+            }
+            .ivu-menu-item{
+                padding-left:20px! important; 
+            }
+        }
     }
     .menu-icon {
         transition: all 0.3s;

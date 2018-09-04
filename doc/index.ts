@@ -15,8 +15,6 @@ let context = ApplicationContext.current;
 setting.arcgis = {
     ...setting.arcgis,
     ...{
-        // arcgisApi: "http://120.202.26.100:8081/arcgis4js/library/3.21/",
-        // routeUrl: "",
         center: [118.573, 37.446],
         wkid: 4326,
         wkidFromApp: 4326,
@@ -27,6 +25,7 @@ setting.arcgis = {
         sliderPosition: "bottom-left"
     }
 };
+setting.mapType = "arcgis";
 MapLoader.loadCss(setting.arcgis);
 MapLoader.loadScript(setting.arcgis).then(() => {
     // 启动应用程序

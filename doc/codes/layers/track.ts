@@ -1,10 +1,19 @@
-import { component, View } from "flagwind-web";
-import maps from "flagwind-map";
-import * as codes from "doc/codes";
+const code = `
+<template>
+    <fm-map  vid="esri_map">
+        <fm-track-layer :symbol="carSymbol" @getImageUrl="getImageUrl" @getImageAngle="getImageAngle" @on-build="onTrackBuild">
+            <fm-point-layer vid="tollgateLayer" :source="dataList" :enableCluster="false" :enableEdit="true" :showInfoWindow="true" :symbol="pointSymbol"
+                @onLayerClick="onLayerClick" @changeStandardModel="onChangeStandardModel">
+            </fm-point-layer>
+        </fm-track-layer>
+    </fm-map>
+</template>
+<script lang="ts">
 
-@component({ template: require("./index.html") })
-export default class TrackLayerView extends View {
-    protected code: object = codes.layers;
+import { component, View } from "flagwind-web";
+
+@component({ template: require("./index.html")  })
+export default class HeatmapLayerView extends View {
     protected dataList = [
         { id: "1", name: "张三", longitude: 118.5731, latitude: 37.61462 },
         { id: "2", name: "李娜", longitude: 118.1332, latitude: 37.48463 },
@@ -32,20 +41,22 @@ export default class TrackLayerView extends View {
     }
 
     protected getImageAngle(trackLine: maps.TrackLine, angle: number) {
-        console.log("angle:" + angle);
-        return 90 - angle;
+        return angle;
     }
 
     protected onTrackBuild(layer: maps.FlagwindTrackLayer) {
         this.trackLayer = layer;
+        layer.showTrackToolBox();
     }
 
     protected startTrack() {
         this.trackLayer.startTrack(this.dataList);
-        this.trackLayer.showTrackToolBox();
     }
 
     protected onChangeStandardModel(model: any) {
         return model;
     }
 }
+</script>`;
+
+export default code;

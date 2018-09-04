@@ -1,4 +1,3 @@
-
 import { component, config } from "flagwind-web";
 import maps from "flagwind-map";
 import Component from "src/components/component";
@@ -8,7 +7,7 @@ import "./info-window.less";
  * @private
  * @const
  */
-const EVENTS = ["close","click"];
+const EVENTS = ["close", "click"];
 
 /**
  * 点图层
@@ -17,7 +16,6 @@ const EVENTS = ["close","click"];
  */
 @component({ template: require("./info-window.html") })
 export default class InfoWindowComponent extends Component {
-
     public _point: maps.FlagwindPoint;
 
     public visible: boolean = false;
@@ -27,7 +25,7 @@ export default class InfoWindowComponent extends Component {
     public content: string = "";
 
     @config({ type: Boolean })
-    public showWare: boolean;
+    public showWave: boolean;
 
     @config({ type: Number, default: 0 })
     public offsetX: number;
@@ -38,7 +36,7 @@ export default class InfoWindowComponent extends Component {
     public zooming: boolean = false;
 
     @config({ type: Object })
-    public position: any;
+    public point: any;
 
     public get hasTitle(): boolean {
         return this.title && this.title.length > 0;
@@ -72,16 +70,32 @@ export default class InfoWindowComponent extends Component {
         }
     }
 
+    public show() {
+        this.visible = true;
+        this.$emit("show");
+    }
+
+    public hide() {
+        this.visible = false;
+        this.$emit("close");
+    }
+
     public bind(layer: maps.FlagwindBusinessLayer): void {
         layer.options.showInfoWindow = false;
-        layer.on("onClick", (evt: maps.EventArgs) => {
-            let context = layer.options.getInfoWindowContext(evt.data.graphic.attributes);
-            this._point = evt.data.graphic.geometry;
-            this.title = context.title;
-            this.content = context.content;
-            this.visible = true;
-            this.onPointChanged(this._point);
-        }, this);
+        layer.on(
+            "onClick",
+            (evt: maps.EventArgs) => {
+                let context = layer.options.getInfoWindowContext(
+                    evt.data.graphic.attributes
+                );
+                this._point = evt.data.graphic.geometry;
+                this.title = context.title;
+                this.content = context.content;
+                this.show();
+                this.onPointChanged(this._point);
+            },
+            this
+        );
     }
 
     /**
@@ -92,7 +106,7 @@ export default class InfoWindowComponent extends Component {
      */
     protected created(): void {
         // 监听 "command" 选项变动
-        this.$watch("position", (position: any) => {
+        this.$watch("point", (position: any) => {
             if (this.map) {
                 this._point = this.map.getPoint(position);
                 this.onPointChanged(position);
@@ -112,8 +126,14 @@ export default class InfoWindowComponent extends Component {
         let infoWindow = <HTMLElement>this.$refs.infoWindow;
 
         if (infoWindow) {
-            infoWindow.style.top = `${pt.y - infoWindow.offsetHeight - 50 + this.offsetY}px`;
-            infoWindow.style.left = `${pt.x - infoWindow.offsetWidth / 2 - 5 + this.offsetX}px`;
+            infoWindow.style.top = `${pt.y -
+                infoWindow.offsetHeight -
+                50 +
+                this.offsetY}px`;
+            infoWindow.style.left = `${pt.x -
+                infoWindow.offsetWidth / 2 -
+                5 +
+                this.offsetX}px`;
         }
     }
 
@@ -121,14 +141,15 @@ export default class InfoWindowComponent extends Component {
         let infoWindow = <HTMLElement>this.$refs.infoWindow;
         let pointWave = <HTMLElement>this.$refs.pointWave;
         if (pointWave && infoWindow) {
-            pointWave.style.top = `${infoWindow.offsetHeight + 14 + this.offsetY}px`;
+            pointWave.style.top = `${infoWindow.offsetHeight +
+                14 +
+                this.offsetY}px`;
             pointWave.style.left = `${infoWindow.offsetWidth / 2}px`;
         }
     }
 
     protected onClose(): void {
-        this.visible = false;
-        this.$emit("close");
+        this.hide();
     }
 
     /**
@@ -137,7 +158,8 @@ export default class InfoWindowComponent extends Component {
      */
     protected triggerEvent(event: any): void {
         let el = <HTMLElement>event.target;
-        let eventName = el.attributes["event"] || event.target.dataset.event || "click";
+        let eventName =
+            el.attributes["event"] || event.target.dataset.event || "click";
         this.$emit(eventName, event.target);
     }
 
@@ -174,7 +196,6 @@ export default class InfoWindowComponent extends Component {
     // #region show23
 
     protected show3(graphic: any, title: string, content: any) {
-
         this.map.onShowInfoWindow({
             graphic: graphic,
             context: {
@@ -185,7 +206,7 @@ export default class InfoWindowComponent extends Component {
         });
     }
 
-    protected show2(id: string,layer: maps.FlagwindBusinessLayer) {
+    protected show2(id: string, layer: maps.FlagwindBusinessLayer) {
         let graphic = layer.getGraphicById(id);
         let context = layer.options.getInfoWindowContext(graphic.attributes);
         this.map.onShowInfoWindow({
@@ -214,15 +235,16 @@ export default class InfoWindowComponent extends Component {
 
         this._mapComponent = map;
 
-        if (this.position) {
-            this._point = this.map.getPoint(this.position);
+        if (this.point) {
+            this._point = this.map.getPoint(this.point);
         }
 
         this.registerEvent();
-
     }
 
-    private async initializeByLayer(layer: maps.FlagwindBusinessLayer): Promise<void> {
+    private async initializeByLayer(
+        layer: maps.FlagwindBusinessLayer
+    ): Promise<void> {
         if (!layer) {
             return;
         }
@@ -234,7 +256,6 @@ export default class InfoWindowComponent extends Component {
         this.registerEvent();
 
         this.bind(layer);
-
     }
 
     private registerEvent() {
@@ -243,33 +264,53 @@ export default class InfoWindowComponent extends Component {
         let infoWindowTop: number;
         let infoWindowLeft: number;
 
-        this.map.on("onZoomStart", () => {
-            this.zooming = true;
-            if(!this._point) return;
-        }, this);
+        this.map.on(
+            "onZoomStart",
+            () => {
+                this.zooming = true;
+                if (!this._point) return;
+            },
+            this
+        );
 
-        this.map.on("onZoomEnd", () => {
-            this.zooming = false;
-            if(!this._point) return;
-            this.onPointChanged(this._point);
-        }, this);
+        this.map.on(
+            "onZoomEnd",
+            () => {
+                this.zooming = false;
+                if (!this._point) return;
+                this.onPointChanged(this._point);
+            },
+            this
+        );
 
-        this.map.on("onPanStart", () => {
-            if(!this._point) return;
-            infoWindowTop = infoWindow.offsetTop;
-            infoWindowLeft = infoWindow.offsetLeft;
+        this.map.on(
+            "onPanStart",
+            () => {
+                if (!this._point) return;
+                infoWindowTop = infoWindow.offsetTop;
+                infoWindowLeft = infoWindow.offsetLeft;
+            },
+            this
+        );
 
-        }, this);
+        this.map.on(
+            "onPan",
+            (evt: maps.EventArgs) => {
+                if (!this._point) return;
+                infoWindow.style.top = `${infoWindowTop + evt.data.delta.y}px`;
+                infoWindow.style.left = `${infoWindowLeft +
+                    evt.data.delta.x}px`;
+            },
+            this
+        );
 
-        this.map.on("onPan", (evt: maps.EventArgs) => {
-            if(!this._point) return;
-            infoWindow.style.top = `${infoWindowTop + evt.data.delta.y}px`;
-            infoWindow.style.left = `${infoWindowLeft + evt.data.delta.x}px`;
-        }, this);
-
-        this.map.on("onPanEnd", () => {
-            if(!this._point) return;
-            this.onPointChanged(this._point);
-        }, this);
+        this.map.on(
+            "onPanEnd",
+            () => {
+                if (!this._point) return;
+                this.onPointChanged(this._point);
+            },
+            this
+        );
     }
 }

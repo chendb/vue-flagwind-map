@@ -8,7 +8,7 @@ import Component from "src/components/component";
  * @private
  * @const
  */
-const EVENTS = ["getImageUrl","getImageAngle"];
+const EVENTS = ["getImageUrl", "getImageAngle", "onPointChanged", "onMoveEvent", "onLineEndEvent"];
 
 const EXCULDE_NAMES = ["map","options"];
 
@@ -19,11 +19,18 @@ const EXCULDE_NAMES = ["map","options"];
  */
 @component({ template: require("./track-layer.html") })
 export default class TrackLayerComponent extends Component {
-    @config({ type: Object })
-    public symbol: any;
 
     @config({ type: Object })
     public options: any;
+
+    @config({ type: Number,default: 100 })
+    public speed: number;
+
+    /**
+     * 路径求解方式(Line,Segment)
+     */
+    @config({ type: String })
+    public solveMode: string;
 
     public get mapComponent(): maps.FlagwindTrackLayer {
         return this._mapComponent;

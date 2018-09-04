@@ -1,4 +1,4 @@
-const bar = `
+const code = `
 import { setting, MapLoader } from "src/index";
 
 setting.arcgis = {
@@ -15,7 +15,8 @@ setting.arcgis = {
         sliderPosition: "bottom-left"
     }
 };
+setting.mapType = "arcgis";
 MapLoader.loadCss(setting.arcgis);
 MapLoader.loadScript(setting.arcgis);`;
 
-export default bar;
+export default code;

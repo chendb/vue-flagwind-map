@@ -59,6 +59,7 @@ export default class MapLoader {
 
                 "esri/geometry/geometryEngine",
                 "esri/renderers/ClassBreaksRenderer",
+                "esri/renderers/HeatmapRenderer",
 
                 "esri/map",
                 "esri/toolbars/draw",
@@ -68,6 +69,7 @@ export default class MapLoader {
                 "esri/units",
                 "esri/layers/ArcGISImageServiceLayer",
                 "esri/layers/GraphicsLayer",
+                "esri/layers/FeatureLayer",
                 "esri/layers/DynamicMapServiceLayer",
                 "esri/layers/ArcGISTiledMapServiceLayer",
                 "esri/layers/WebTiledLayer",

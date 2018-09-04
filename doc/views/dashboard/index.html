@@ -12,7 +12,7 @@
 
                     <i-submenu v-if="(m.children)&&m.visible" :key="m.name" :name="m.name">
                         <template slot="title">
-                            <i-icon :type="m.icon" />{{m.title}}
+                            <i-icon :type="m.icon" /><span>{{m.title}}</span>
                         </template>
                         <i-menu-item @click="onRouteTo(item.path)" :key="item.name" :name="item.name" v-for="(item) in m.children">
                             <router-link :to="item.path">

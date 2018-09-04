@@ -8,7 +8,7 @@ import "./overlay.less";
  * @private
  * @const
  */
-const EVENTS = ["close","click"];
+const EVENTS = ["click"];
 
 /**
  * 点图层
@@ -68,11 +68,6 @@ export default class Overlay extends Component {
                 overlay.style.left = `${pt.x - overlay.offsetWidth / 2 + this.offsetX}px`;
             }
         });
-    }
-
-    protected onClose(): void {
-        this.visible = false;
-        this.$emit("close");
     }
 
     /**

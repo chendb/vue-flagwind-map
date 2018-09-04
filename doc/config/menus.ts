@@ -19,14 +19,14 @@ const menus = [
                 title: "地图",
                 path: "/map",
                 visible: true,
-                icon: "pie-graph",
+                icon: "earth",
                 children: [
                     {
                         name: "map",
                         title: "地图",
                         path: "/map",
                         visible: true,
-                        icon: "pie-graph"
+                        icon: "earth"
                     }
                 ]
             },
@@ -36,7 +36,7 @@ const menus = [
                 title: "图层",
                 path: "/point-layer",
                 visible: true,
-                icon: "pie-graph",
+                icon: "map",
                 children: [
                     {
                         name: "pointLayer",
@@ -74,7 +74,7 @@ const menus = [
                 name: "widgets",
                 title: "插件",
                 path: "/select-box",
-                icon: "pie-graph",
+                icon: "gear-a",
                 visible: true,
                 children: [
                     {

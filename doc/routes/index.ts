@@ -10,15 +10,10 @@ const routes = [
     {
         name: "main",
         path: "/",
-        redirect: "/intro",
+        redirect: "/map",
         title: "首页",
         component: (resolve: any) => (<any>require)(["views/dashboard"], resolve),
         children: [
-            {
-                path: "/intro",
-                component: (resolve: any) =>
-                    (<any>require)(["views/intro"], resolve)
-            },
             {
                 path: "/map",
                 component: (resolve: any) =>

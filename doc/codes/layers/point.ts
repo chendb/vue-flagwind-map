@@ -1,10 +1,19 @@
+const code = `
+<template>
+    <fm-map ref="fwAmap"   vid="esri_map">
+        <fm-point-layer vid="tollgateLayer"
+                        :enableCluster="false" :symbol="symbol" :source="dataList"
+                        @onLayerClick="onLayerClick" @changeStandardModel="onChangeStandardModel">
+        </fm-point-layer>
+    </fm-map>
+</template>
+<script lang="ts">
+
 import { component, View } from "flagwind-web";
-import * as codes from "doc/codes";
 
-@component({ template: require("./index.html")  })
-export default class PointLayerView extends View {
-    protected code: object = codes.layers;
-
+@component
+export default class PointLayerView extends View
+{
     protected dataList = [
         { id: "1", name: "张三", longitude: 118.5731, latitude: 37.61462 },
         { id: "2", name: "李娜", longitude: 118.1332, latitude: 37.48463 },
@@ -22,5 +31,7 @@ export default class PointLayerView extends View {
     protected onChangeStandardModel(model: any) {
         return model;
     }
-
 }
+</script>`;
+
+export default code;

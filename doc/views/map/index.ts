@@ -1,8 +1,8 @@
 import { component, View } from "flagwind-web";
-import * as code from "doc/codes/map";
+import * as codes from "doc/codes";
 
-@component({ template: require("./index.html")  })
-export default class Intro extends View {
-    protected code: object = code;
+@component({ template: require("./index.html") })
+export default class MapView extends View {
+    protected code: any = codes.maps;
 
 }

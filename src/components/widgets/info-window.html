@@ -1,9 +1,9 @@
-<section ref="infoWindow"  :class="{'active':(visible && !zooming)}" class="fm-widgets fm-info-window">
+<section ref="infoWindow" :class="{'active':(visible && !zooming)}" class="fm-widgets fm-info-window">
     <div class="close" @click="onClose"></div>
 
     <article>
-        
-        <aside class="title" >
+
+        <aside class="title">
             <span v-if="hasTitle">{{title}}</span>
             <slot name="title"></slot>
         </aside>
@@ -17,6 +17,6 @@
 
     </article>
 
-    <article class="point-wave" ref="pointWave" v-show="showWare"></article>
+    <article class="point-wave" ref="pointWave" v-show="showWave"></article>
 
 </section>

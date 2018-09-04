@@ -33,15 +33,18 @@ export default class HeatmapLayerComponent extends Component {
     @config({ type: Object })
     public options: any;
 
-    @config({ type: Object })
-    public symbol: any;
-    
     /**
-     * 选择模式（0为未启用 1为多选，2为单选）
+     * 模糊半径
      */
-    @config({ type: Number })
-    public selectMode: number;
+    @config({ type: Number, default: 12 })
+    public blurRadius: number;
 
+    /**
+     * 颜色
+     */
+    @config({ type: Array })
+    public colorStops: Array<any>;
+    
     /**
      * 数据源
      */

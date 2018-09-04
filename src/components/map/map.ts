@@ -1,8 +1,7 @@
-
 import { component, config } from "flagwind-web";
 import maps from "flagwind-map";
 import Component from "src/components/component";
-import arcgisSetting from "src/config/arcgis";
+import SETTING from "src/config";
 import { MapLoader } from "src/common";
 
 /**
@@ -11,11 +10,11 @@ import { MapLoader } from "src/common";
  * @const
  */
 const EVENTS = [
-    "onFormPoint",      // 从地图上的点坐标转换成业务的经纬度
-    "onToPoint",        // 从业务的经纬度转换地图上的点坐标
+    "onFormPoint", // 从地图上的点坐标转换成业务的经纬度
+    "onToPoint", // 从业务的经纬度转换地图上的点坐标
     "onMapLoad",
-    "onClick",          // 鼠标左键单击事件
-    "onDbClick",        // 地图平移时触发事件
+    "onClick", // 鼠标左键单击事件
+    "onDbClick", // 地图平移时触发事件
     "onMouseOut",
     "onMouseOver",
     "onMouseMove",
@@ -32,7 +31,7 @@ const EVENTS = [
     "onResize"
 ];
 
-const EXCULDE_NAMES = ["setting", "vid","options"];
+const EXCULDE_NAMES = ["setting", "vid", "options"];
 
 /**
  * 高德地图组件。
@@ -41,7 +40,6 @@ const EXCULDE_NAMES = ["setting", "vid","options"];
  */
 @component({ template: require("./map.html") })
 export default class MapComponent extends Component {
-
     /**
      * 获取地图的DOM节点。
      * @public
@@ -115,7 +113,7 @@ export default class MapComponent extends Component {
      * @config
      * @returns string
      */
-    @config({ type: String,default: "arcgis" })
+    // @config({ type: String, default: "arcgis" })
     public mapType: string;
 
     public constructor() {
@@ -129,8 +127,7 @@ export default class MapComponent extends Component {
      * @returns void
      */
     protected created(): void {
-
-        // 监听 "command" 选项变动
+        this.mapType = SETTING.mapType;
     }
 
     /**
@@ -179,11 +176,18 @@ export default class MapComponent extends Component {
         let options = this.resolveOptions();
 
         options = { ...this.options, ...options };
-        
-        let setting = <maps.IMapSetting>{...arcgisSetting, ...this.setting};
+        let defaultSetting: any =
+            SETTING.mapType === "arcgis" ? SETTING.arcgis : SETTING.minemap;
+        let setting = <maps.IMapSetting>{ ...defaultSetting, ...this.setting };
 
         let serviceType = this.getMapServiceType();
-        this.map = this.mapComponent = this.getService<maps.FlagwindMap>(serviceType,setting,this.vid,options);
+        this.map = this.mapComponent = this.getService<maps.FlagwindMap>(
+            serviceType,
+            setting,
+            this.vid,
+            options
+        );
+        this.$emit("on-build", this._mapComponent);
         // 通知外部组件地图已准备就绪
         this.$emit("map-ready", this.map);
 
@@ -205,5 +209,4 @@ export default class MapComponent extends Component {
             throw new Error("不支持的地图类型" + this.mapType);
         }
     }
-
 }

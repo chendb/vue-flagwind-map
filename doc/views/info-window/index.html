@@ -1,69 +1,139 @@
+<div class="v-intro">
+    <h1>InfoWindow</h1>
+    <h2>一、概述</h2>
+    <p>InfoWindow组件用于，在地图对应位置显示信息窗口的应用场景。它有两种用法，一种是依赖PointLayer组件，替换其原有的InfoWindow窗体；另一种，独立于图层，自定义窗口内容使用。</p>
 
-    <div class="v-intro">
-        <h1>Track Layer</h1>
-        <p>一标准化地图操作的api,为了屏蔽不同地图sdk对业务的影响,方便非地图专业人员很方便实现地图相关业务,目前对ArcGIS和Minemap两种不同地图SDK进行实现。</p>
+    <h2>二、示例</h2>
+    <u-example title="说明">
+        <template slot="case">
 
-        <h2>柱状图</h2>
-        <u-example title="尺寸">
-            <template slot="case">
+            <fm-map  vid="esri_map">
+
+                <fm-point-layer vid="tollgateLayer" :enableCluster="false" :showInfoWindow="true" :symbol="pointSymbol"
+                    :source="dataList" @changeStandardModel="onChangeStandardModel">
+                    <fm-info-window :showWare="true">
+                    </fm-info-window>
+                </fm-point-layer>
+
+                <fm-info-window ref="fmInfoWindow" @click="onClick" :point="position" :title="title" :showWare="true">
+                    <template slot="content">自定义内容</template>
+                    <template slot="footer">
+                        <div style="float:right;padding:4px;">
+                            <i-button type="primary">确定</i-button>
+                            <i-button type="error">取消</i-button>
+                        </div>
+                    </template>
+                </fm-info-window>
+
+            </fm-map>
+
+            <i-button @click="onOpenInfoWindow">显示信息窗口</i-button>
+        </template>
+        <template slot="desc">
+            <p>1.可点击地图上的要素点，可显示对应图层信息窗口 </p>
+            <p>2.点击地图下方的“显示信息窗口”按钮显示自定义窗口</p>
+        </template>
+        <u-code slot="code" lang="html">{{code.infoWindow}}</u-code>
+    </u-example>
 
 
-                <fm-map ref="fwAmap" mapType="arcgis" @onMapLoad="onLoad" vid="esri_map">
 
-                    <fm-point-layer @on-build="onLayerBuild" :enableCluster="false" :showTooltip="true" :enableEdit="true" :showInfoWindow="true"
-                        :symbol="pointSymbol" vid="tollgateLayer" @onLayerClick="onLayerClick" @changeStandardModel="onChangeStandardModel"
-                        :source="dataList">
-                        <fm-info-window ref="fmInfoWindow" :showWare="true">
-                            <p>0000000</p>
-                        </fm-info-window>
-                    </fm-point-layer>
+    <div class="api">
+        <h2>API</h2>
+        <h3>属性</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>说明</th>
+                    <th>数据类型</th>
+                    <th>属性类型</th>
+                    <th>默认值</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>position</td>
+                    <td>位置信息</td>
+                    <td>any</td>
+                    <td>静态属性</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>showWave</td>
+                    <td>定位时显示波浪效果</td>
+                    <td>boolean</td>
+                    <td>静态属性</td>
+                    <td>false</td>
+                </tr>
+                <tr>
+                    <td>offsetX</td>
+                    <td>横向偏移量</td>
+                    <td>number</td>
+                    <td>静态属性</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>offsetX</td>
+                    <td>横向偏移量</td>
+                    <td>number</td>
+                    <td>静态属性</td>
+                    <td></td>
+                </tr>
+            </tbody>
+
+        </table>
+
+        <h3>事件</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>事件名</th>
+                    <th>说明</th>
+                    <th>参数</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>show</td>
+                    <td>窗口显示时回调事件</td>
+                    <td>()</td>
+                </tr>
+                <tr>
+                    <td>close</td>
+                    <td>窗口显示关闭时回调事件</td>
+                    <td>()</td>
+                </tr>
+                <tr>
+                    <td>click</td>
+                    <td>窗口单击时回调事件</td>
+                    <td>(evt:HTMLElement)</td>
+                </tr>
+                <tr class="inline">
+                    <td>show</td>
+                    <td>显示窗口方法（组件内部方法）</td>
+                    <td>()</td>
+                </tr>
+                <tr class="inline">
+                    <td>hide</td>
+                    <td>隐藏窗口方法（组件内部方法）</td>
+                    <td>()</td>
+                </tr>
+
+                <tr class="inline">
+                    <td>open</td>
+                    <td>打开自定义内容窗口（组件内部方法）</td>
+                    <td>(graphic: any, title: string, content: any)</td>
+                </tr>
 
 
-                </fm-map>
-                <i-button @click="onOpenInfoWindow">打开</i-button>
-            </template>
-            <template slot="desc">
-                <p>通过设置
-                    <code>width</code>、
-                    <code>height</code>属性改变 ECharts 实例的尺寸。</p>
-                <p>如果未显示指定
-                    <code>width</code>、
-                    <code>height</code>属性，则会动态计算容器的宽高做 ECharts 实例的尺寸。</p>
-            </template>
-            <!-- <u-code slot="code" lang="html">{{codes.bar}}</u-code> -->
-        </u-example>
-
-        <div class="api">
-            <h2>API</h2>
-            <h3>属性</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>名称</th>
-                        <th>说明</th>
-                        <th>数据类型</th>
-                        <th>属性类型</th>
-                        <th>默认值</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-
-            </table>
-
-            <h3>事件</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>事件名</th>
-                        <th>说明</th>
-                        <th>参数</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-
+                <tr class="inline">
+                    <td>open</td>
+                    <td>打开自定义内容窗口（组件内部方法）</td>
+                    <td>(id: string, layer: maps.FlagwindBusinessLayer)</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
+</div>

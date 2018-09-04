@@ -1,9 +1,24 @@
+const code = `
+<template>
+    <fm-map  vid="esri_map" >
+        <fm-select-box @onCheckChanged="onCheckChanged">
+            <fm-point-layer
+                vid="tollgateLayer"
+                :enableCluster="false"
+                :showInfoWindow="true"
+                :symbol="symbol"
+                :source="dataList"
+                @changeStandardModel="onChangeStandardModel">
+            </fm-point-layer>
+        </fm-select-box>
+    </fm-map>
+</template>
+<script lang="ts">
+
 import { component, View } from "flagwind-web";
-import * as codes from "doc/codes";
 
 @component({ template: require("./index.html") })
 export default class SelectBoxView extends View {
-    protected code: object = codes.widgets;
     protected dataList = [
         { id: "1", name: "张三", longitude: 118.5731, latitude: 37.61462 },
         { id: "2", name: "李娜", longitude: 118.1332, latitude: 37.48463 },
@@ -26,3 +41,6 @@ export default class SelectBoxView extends View {
         return model;
     }
 }
+</script>`;
+
+export default code;
