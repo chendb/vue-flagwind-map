@@ -40,6 +40,7 @@ const EXCULDE_NAMES = ["setting", "vid", "options"];
  */
 @component({ template: require("./map.html") })
 export default class MapComponent extends Component {
+
     /**
      * 获取地图的DOM节点。
      * @public

@@ -26,6 +26,9 @@ export default class TrackLayerComponent extends Component {
     @config({ type: Number,default: 100 })
     public speed: number;
 
+    @config({ type: Object })
+    public symbol: any;
+
     /**
      * 路径求解方式(Line,Segment)
      */
