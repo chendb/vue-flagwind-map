@@ -8,11 +8,25 @@ declare let esri: any;
 export default class MapLoader {
     protected static options: any;
     public static loadCss(setting: any) {
-        loadCss(`${setting.arcgisApi}esri/css/esri.css`);
-        loadCss(`${setting.arcgisApi}dijit/themes/claro/claro.css`);
+        if (setting.mapType === "arcgis") {
+            loadCss(`${setting.arcgis.arcgisApi}esri/css/esri.css`);
+            loadCss(`${setting.arcgis.arcgisApi}dijit/themes/claro/claro.css`);
+        } else if (setting.mapType === "minemap") {
+            loadCss(`http://${setting.minemap.mapDomain}/minemapapi/${setting.minemap.mapVersion}/minemap.css`);
+        }
     }
 
     public static loadScript(setting: any) {
+        if (setting.mapType === "arcgis") {
+            return this.loadArcgisScript(setting);
+        } else if (setting.mapType === "minemap") {
+            return this.loadMinemapScript(setting);
+        } else {
+            throw new Error("不支持的地图类型");
+        }
+    }
+
+    public static loadArcgisScript(setting: any) {
         let index = window.location.href.lastIndexOf(window.location.hash);
         let url = window.location.href.substr(0, index);
         if (index < 0) {
@@ -37,6 +51,36 @@ export default class MapLoader {
         });
 
         return loadScript(options);
+    }
+
+    public static loadMinemapScript(setting: any) {
+        return new Promise((resolve, reject) => {
+            let script = document.querySelector("script[data-minemap-loader]");
+            if (!script) {
+                let url = `http://${setting.minemap.mapDomain}/minemapapi/demo/js/minemap-wmts.js`;
+                script = MapLoader.createScript(url);
+
+                let onScriptLoad = () => {
+                    script.setAttribute("data-minemap-loader", "loaded");
+                    // remove this event listener
+                    script.removeEventListener("load", onScriptLoad, false);
+                    resolve(script);
+                };
+                script.addEventListener("load", onScriptLoad, false);
+
+                document.body.appendChild(script);
+                script.setAttribute("data-minemap-loader", "loading");
+            } else {
+                resolve(script);
+            }
+        });
+    }
+
+    public static createScript(url: string) {
+        let script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = url;
+        return script;
     }
 
     public static loadModules(): Promise<any> {
