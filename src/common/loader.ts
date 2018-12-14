@@ -8,38 +8,75 @@ declare let esri: any;
 export default class MapLoader {
     protected static options: any;
     public static loadCss(setting: any) {
-        loadCss(`${setting.arcgisApi}esri/css/esri.css`);
-        loadCss(`${setting.arcgisApi}dijit/themes/claro/claro.css`);
+        if (setting.mapType === "arcgis") {
+            loadCss(`${setting.arcgis.arcgisApi}esri/css/esri.css`);
+            loadCss(`${setting.arcgis.arcgisApi}dijit/themes/claro/claro.css`);
+        } else if (setting.mapType === "minemap") {
+            loadCss(`http://${setting.minemap.mapDomain}/minemapapi/${setting.minemap.mapVersion}/minemap.css`);
+        }
     }
 
     public static loadScript(setting: any) {
-        let index = window.location.href.lastIndexOf(window.location.hash);
-        let url = window.location.href.substr(0, index);
-        if (index < 0) {
-            url = window.location.origin + "/";
-        }
-
-        const options = (MapLoader.options = {
-            url: `${setting.arcgisApi}init.js`,
-            dojoConfig: {
-                async: true,
-                packages: [
-                    {
-                        location: url + "static/esri/layers",
-                        name: "extras"
-                    },
-                    {
-                        location: url + "static/egova",
-                        name: "egova1"
-                    }
-                ]
+        if (setting.mapType === "arcgis") {
+            let index = window.location.href.lastIndexOf(window.location.hash);
+            let url = window.location.href.substr(0, index);
+            if (index < 0) {
+                url = window.location.origin + "/";
             }
-        });
 
-        return loadScript(options);
+            const options = (MapLoader.options = {
+                url: `${setting.arcgis.arcgisApi}init.js`,
+                dojoConfig: {
+                    async: true,
+                    packages: [
+                        {
+                            location: url + "static/esri/layers",
+                            name: "extras"
+                        },
+                        {
+                            location: url + "static/egova",
+                            name: "egova1"
+                        }
+                    ]
+                }
+            });
+
+            return loadScript(options);
+
+        } else if (setting.mapType === "minemap") {
+            return new Promise((resolve, reject) => {
+                let script = document.querySelector("script[data-minemap-loader]");
+                if (!script) {
+                    let url = `http://${setting.minemap.mapDomain}/minemapapi/demo/js/minemap-wmts.js`;
+                    script = MapLoader.createScript(url);
+    
+                    let onScriptLoad = () => {
+                        script.setAttribute("data-minemap-loader", "loaded");
+                        // remove this event listener
+                        script.removeEventListener("load", onScriptLoad, false);
+                        resolve(script);
+                    };
+                    script.addEventListener("load", onScriptLoad, false);
+    
+                    document.body.appendChild(script);
+                    script.setAttribute("data-minemap-loader", "loading");
+                } else {
+                    resolve(script);
+                }
+            });
+        }
     }
 
-    public static loadModules(): Promise<any> {
+    public static createScript(url: string) {
+        let script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = url;
+        return script;
+    }
+
+    public static loadModules(mapType: string): Promise<any> {
+        if (mapType === "minemap") return Promise.resolve(true);
+
         return loadModules(
             [
                 "dojo/parser",

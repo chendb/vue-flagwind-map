@@ -141,7 +141,7 @@ export default class MapComponent extends Component {
         // 调用基类方法
         super.mounted();
 
-        MapLoader.loadModules().then(() => {
+        MapLoader.loadModules(this.mapType).then(() => {
             // 初始化高德地图
             this.initialize();
         });
@@ -205,7 +205,7 @@ export default class MapComponent extends Component {
     private getMapServiceType() {
         if (this.mapType === "arcgis") {
             return maps["EsriMap"];
-        } else if (this.mapType === "arcgis") {
+        } else if (this.mapType === "minemap") {
             return maps["MinemapMap"];
         } else {
             throw new Error("不支持的地图类型" + this.mapType);

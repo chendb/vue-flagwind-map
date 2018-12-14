@@ -107,7 +107,7 @@ export default class InfoWindowComponent extends Component {
     protected created(): void {
         // 监听 "command" 选项变动
         this.$watch("point", (position: any) => {
-            if (this.map) {
+            if (this.map && position && Object.keys(position).length) {
                 this._point = this.map.getPoint(position);
                 this.onPointChanged(position);
             }
@@ -264,6 +264,7 @@ export default class InfoWindowComponent extends Component {
         let infoWindowTop: number;
         let infoWindowLeft: number;
 
+        let isArcgis: boolean = this.map.options.mapType === "arcgis";
         this.map.on(
             "onZoomStart",
             () => {
@@ -297,9 +298,9 @@ export default class InfoWindowComponent extends Component {
             "onPan",
             (evt: maps.EventArgs) => {
                 if (!this._point) return;
-                infoWindow.style.top = `${infoWindowTop + evt.data.delta.y}px`;
-                infoWindow.style.left = `${infoWindowLeft +
-                    evt.data.delta.x}px`;
+                if (!isArcgis && !evt.data.originalEvent) return;
+                infoWindow.style.top = `${infoWindowTop + (isArcgis ? evt.data.delta.y : evt.data.originalEvent.y)}px`;
+                infoWindow.style.left = `${infoWindowLeft + (isArcgis ? evt.data.delta.x : evt.data.originalEvent.x)}px`;
             },
             this
         );
