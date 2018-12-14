@@ -121,7 +121,7 @@ export default class TrackLayerComponent extends Component {
     private getMapServiceType() {
         if (this.getMapType() === "arcgis") {
             return maps["EsriTrackLayer"];
-        } else if (this.getMapType() === "arcgis") {
+        } else if (this.getMapType() === "minemap") {
             return maps["MinemapTrackLayer"];
         } else {
             throw new Error("不支持的地图类型" + this.getMapType());

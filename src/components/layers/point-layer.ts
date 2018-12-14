@@ -231,7 +231,7 @@ export default class PointLayerComponent extends Component {
     private getMapServiceType() {
         if (this.getMapType() === "arcgis") {
             return maps["EsriClusterLayer"];
-        } else if (this.getMapType() === "arcgis") {
+        } else if (this.getMapType() === "minemap") {
             return maps["MinemapPointLayer"];
         } else {
             throw new Error("不支持的地图类型" + this.getMapType());

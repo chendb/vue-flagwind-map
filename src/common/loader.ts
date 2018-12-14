@@ -34,7 +34,7 @@ export default class MapLoader {
         }
 
         const options = (MapLoader.options = {
-            url: `${setting.arcgisApi}init.js`,
+            url: `${setting.arcgis.arcgisApi}init.js`,
             dojoConfig: {
                 async: true,
                 packages: [
@@ -51,6 +51,7 @@ export default class MapLoader {
         });
 
         return loadScript(options);
+
     }
 
     public static loadMinemapScript(setting: any) {
