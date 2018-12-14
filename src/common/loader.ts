@@ -84,7 +84,24 @@ export default class MapLoader {
         return script;
     }
 
-    public static loadModules(): Promise<any> {
+    public static loadModules(mapType: String): Promise<any> {
+        if (mapType === "arcgis") {
+            return this.loadArcgisModules();
+        } else if (mapType === "minemap") {
+            return this.loadMinemapModules();
+        } else {
+            throw new Error("不支持的地图类型");
+        }
+    }
+
+    public static loadMinemapModules(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            console.info("minemap 不需要调用此方法");
+            resolve();
+        });
+    }
+
+    public static loadArcgisModules(): Promise<any> {
         return loadModules(
             [
                 "dojo/parser",
