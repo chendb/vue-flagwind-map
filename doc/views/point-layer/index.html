@@ -100,7 +100,7 @@
                     <td>是否启用地图要素选择功能</td>
                     <td>number</td>
                     <td>静态属性</td>
-                    <td>0（0为未启用 1为多选，2为单选）</td>
+                    <td>0（0为未启用 1为单选，2为多选）</td>
                 </tr>
             </tbody>
 
@@ -140,6 +140,11 @@
                     <td>onVisibleChanged</td>
                     <td>图层可见性变换回调事件。</td>
                     <td>(isShow: boolean)</td>
+                </tr>
+                <tr>
+                    <td>getImageUrl</td>
+                    <td>自定义要素图标，它的优先级高于symbol，默认为null。</td>
+                    <td>(model: any)</td>
                 </tr>
                 <tr>
                     <td>changeStandardModel</td>

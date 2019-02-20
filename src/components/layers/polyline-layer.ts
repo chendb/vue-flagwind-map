@@ -46,7 +46,7 @@ export default class PolylineLayerComponent extends Component {
     public symbol: any;
 
     /**
-     * 选择模式（1为多选，2为单选）
+     * 选择模式（0为未启用 1为单选，2为多选）
      */
     @config({ type: Number })
     public selectMode: number;

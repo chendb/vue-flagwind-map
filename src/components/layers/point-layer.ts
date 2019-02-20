@@ -11,6 +11,7 @@ import Component from "src/components/component";
 const EVENTS = [
     "changeStandardModel",
     "getInfoWindowContext",
+    "getImageUrl",
     "getDataList",
     "getLastStatus",
     "onLayerClick",
