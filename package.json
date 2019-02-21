@@ -1,6 +1,6 @@
 {
     "name": "vue-flagwind-map",
-    "version": "1.0.10",
+    "version": "1.0.12",
     "description": "A Vue.js project",
     "author": "chendebao <chendebao1985@163.com>",
     "scripts": {
@@ -72,7 +72,7 @@
         "extract-text-webpack-plugin": "^3.0.0",
         "file-loader": "^1.1.5",
         "flagwind-core": "1.1.0",
-        "flagwind-map": "^1.0.36",
+        "flagwind-map": "^1.0.40",
         "flagwind-web": "^1.0.7",
         "fork-ts-checker-webpack-plugin": "^0.4.6",
         "friendly-errors-webpack-plugin": "^1.6.1",

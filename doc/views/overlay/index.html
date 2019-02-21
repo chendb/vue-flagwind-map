@@ -8,6 +8,9 @@
 
         <template slot="case">
             <fm-map  vid="esri_map">
+                <fm-point-layer vid="tollgateLayer" :enableCluster="false" :showInfoWindow="true" :symbol="pointSymbol"
+                    :source="dataList" @changeStandardModel="onChangeStandardModel">
+                </fm-point-layer>
                 <fm-overlay :point="point">
                     这是一个遮罩物<br />
                     你可以在这里放你自己的组件，显示在地图上{{point.data.name}}
@@ -41,6 +44,20 @@
                     <td>any</td>
                     <td>静态属性</td>
                     <td></td>
+                </tr>
+                <tr>
+                    <td>width</td>
+                    <td>宽度</td>
+                    <td>number</td>
+                    <td>静态属性</td>
+                    <td>100px</td>
+                </tr>
+                <tr>
+                    <td>height</td>
+                    <td>调试</td>
+                    <td>number</td>
+                    <td>静态属性</td>
+                    <td>100px</td>
                 </tr>
                 <tr>
                     <td>offsetX</td>

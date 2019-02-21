@@ -13,6 +13,7 @@ export default class MapLoader {
             loadCss(`${setting.arcgis.arcgisApi}dijit/themes/claro/claro.css`);
         } else if (setting.mapType === "minemap") {
             loadCss(`http://${setting.minemap.mapDomain}/minemapapi/${setting.minemap.mapVersion}/minemap.css`);
+            loadCss(`http://${setting.minemap.mapDomain}/minemapapi/${setting.minemap.mapVersion}/plugins/edit/minemap-edit.css`);
         }
     }
 
@@ -57,10 +58,10 @@ export default class MapLoader {
     public static loadMinemapScript(setting: any) {
         return new Promise((resolve, reject) => {
             let script = document.querySelector("script[data-minemap-loader]");
-            if (!script) {
-                let url = `http://${setting.minemap.mapDomain}/minemapapi/demo/js/minemap-wmts.js`;
-                script = MapLoader.createScript(url);
 
+            if (!script) {
+                let url = setting.minemap.mainJS || `http://${setting.minemap.mapDomain}/minemapapi/${setting.minemap.mapVersion}/minemap.js`;
+                script = MapLoader.createScript(url);
                 let onScriptLoad = () => {
                     script.setAttribute("data-minemap-loader", "loaded");
                     // remove this event listener
@@ -68,12 +69,27 @@ export default class MapLoader {
                     resolve(script);
                 };
                 script.addEventListener("load", onScriptLoad, false);
-
                 document.body.appendChild(script);
                 script.setAttribute("data-minemap-loader", "loading");
             } else {
                 resolve(script);
             }
+
+            let pluginScript = document.querySelector("script[data-minemap-plugin-loader]");
+            if (!pluginScript) {
+                let url = setting.minemap.pluginJS || `http://${setting.minemap.mapDomain}/minemapapi/${setting.minemap.mapVersion}/plugins/edit/minemap-edit.js`;
+                pluginScript = MapLoader.createScript(url);
+                let onScriptLoad = () => {
+                    pluginScript.setAttribute("data-minemap-plugin-loader", "loaded");
+
+                    pluginScript.removeEventListener("load", onScriptLoad, false);
+                };
+                pluginScript.addEventListener("load", onScriptLoad, false);
+
+                document.body.appendChild(pluginScript);
+                pluginScript.setAttribute("data-minemap-plugin-loader", "loading");
+            }
+
         });
     }
 

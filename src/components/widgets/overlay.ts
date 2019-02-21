@@ -26,6 +26,12 @@ export default class Overlay extends Component {
     @config({ type: Number, default: 0 })
     public offsetY: number;
 
+    @config({ type: Number, default: 100 })
+    public width: number;
+
+    @config({ type: Number, default: 100 })
+    public height: number;
+
     public zooming: boolean = false;
 
     @config({ type: Object })
@@ -156,6 +162,7 @@ export default class Overlay extends Component {
 
         this.map.on("onPan", (evt: maps.EventArgs) => {
             if(!this.point) return;
+            if (!evt.data.delta) return;
             overlay.style.top = `${top + evt.data.delta.y}px`;
             overlay.style.left = `${left + evt.data.delta.x}px`;
         }, this);
