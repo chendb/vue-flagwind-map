@@ -39,7 +39,7 @@ setting.minemap = {
     }
 };
 (<any>setting.minemap).mainJS = "http://113.106.54.47:1180/minemapapi/demo/js/minemap-wmts.js";
-setting.mapType = "minemap";
+setting.mapType = (<any>window).mapType || "minemap";
 MapLoader.loadCss(setting);
 MapLoader.loadScript(setting).then(() => {
     // 启动应用程序

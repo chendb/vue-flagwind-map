@@ -172,8 +172,19 @@ const webpackConfig = {
         }),
 
         new HtmlWebpackPlugin({
-            filename: path.join(__dirname, "../dist/index.html"),
-            template: path.join(__dirname, "../doc/index.html"),
+            filename: path.join(__dirname, "../dist/arcgis.html"),
+            template: path.join(__dirname, "../doc/arcgis.html"),
+            inject: true,
+            minify: {
+                removeComments: false,
+                collapseWhitespace: false,
+                removeAttributeQuotes: false
+            },
+            chunksSortMode: "dependency"
+        }),
+        new HtmlWebpackPlugin({
+            filename: path.join(__dirname, "../dist/minemap.html"),
+            template: path.join(__dirname, "../doc/minemap.html"),
             inject: true,
             minify: {
                 removeComments: false,
